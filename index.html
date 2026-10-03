@@ -104,6 +104,11 @@
     .crew-card { min-height:82px; padding:14px; gap:6px; }
     .crew-card strong { font-size:.94rem; }
     .crew-card span { font-size:.78rem; line-height:1.28; }
+    .whiteboard-card { justify-content:flex-start; }
+    .whiteboard-jobs { list-style:none; margin:2px 0 0; padding:0; display:grid; gap:4px; }
+    .whiteboard-jobs li { display:flex; justify-content:space-between; gap:8px; font-size:.78rem; font-weight:800; color:var(--blue-dark); border-top:1px solid rgba(216,224,234,.8); padding-top:4px; }
+    .whiteboard-jobs li em { font-style:normal; color:var(--muted); font-weight:750; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .whiteboard-more { color:var(--muted); font-size:.74rem; font-weight:800; }
     .coming-soon-card { display:grid; gap:8px; min-height:112px; padding:18px; background:rgba(255,255,255,.72); border:1px dashed rgba(18,63,115,.26); border-radius:22px; box-shadow:0 8px 22px rgba(15,23,42,.05); backdrop-filter:blur(8px); }
     .coming-soon-badge { width:max-content; border-radius:999px; padding:5px 10px; background:var(--blue-soft); color:var(--blue-dark); font-size:.68rem; font-weight:950; letter-spacing:.075em; text-transform:uppercase; }
     .coming-soon-card strong { color:var(--blue-dark); font-size:1.02rem; }
@@ -322,11 +327,11 @@
       <section class="hub-column crew-section" aria-labelledby="team-tools-title">
         <div class="section-title"><h2 id="team-tools-title">Team Tools</h2><p>Field shortcuts, team resources, and support tools.</p></div>
         <div class="hub-card-grid" id="team-tools">
-          <div class="coming-soon-card" aria-label="Team Tools coming soon">
-            <div class="coming-soon-badge">Coming Soon</div>
-            <strong>Team tools are being built.</strong>
-            <span>Field shortcuts, input forms, and crew resources will be added here.</span>
-          </div>
+          <a class="resource-card crew-card whiteboard-card" href="https://coastalbendpower.github.io/Whiteboard/view.html" aria-label="Open the Whiteboard crew assignments">
+            <strong>Whiteboard</strong>
+            <span id="whiteboardSummary"><span class="power-loader power-loader--inline" role="status" aria-label="Loading crew assignments"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading crew assignments</span></span></span>
+            <ul class="whiteboard-jobs" id="whiteboardJobs"></ul>
+          </a>
         </div>
       </section>
     </section>
@@ -334,7 +339,7 @@
     <footer class="footer">
       <p class="footer-brand">Coastal Bend Power Services, LLC — PowerHub</p>
       <p class="footer-disclaimer">Internal use only. This site is intended for Coastal Bend Power Services, LLC employees and authorized personnel. Do not share links, documents, screenshots, or site content with external parties unless approved by company management.</p>
-      <p class="site-version">Version: PowerHub v3.0.28</p>
+      <p class="site-version">Version: PowerHub v3.0.29</p>
     </footer>
   </main>
 
@@ -361,7 +366,9 @@
     const SAFETYHQ_FEED_URL = "https://script.google.com/macros/s/AKfycbyuz_gyOtJFDThQguUgC1nIRzyPYRRf50bWRXDf6UD33fytBwG_KbEDLcaLxaKiSrkFiQ/exec";
     const UC_ANNOUNCEMENT_FEED_URL = "https://script.google.com/macros/s/AKfycbw3Y1YrNwwmGQE7OWVizNoxLI_OpMZ2CxbHJO5sm-NUd1r6a5vOSvzg8rb_PKjODcEy_g/exec?action=feed";
     const POWER_LOADER_SRC = "assets/loading_spinner_electric_ring.svg";
-    const POWERHUB_VERSION = "PowerHub v3.0.28";
+    const WHITEBOARD_FEED_URL = "https://script.google.com/macros/s/AKfycbw22j6Z8pW_uPzsElHs3qTUCyeqnDGhYwegQMIGLFxLL_8UDJh2wzzyIsYx5muuIi7G/exec?action=getBoard";
+    const WHITEBOARD_JOBS_SHOWN = 4;
+    const POWERHUB_VERSION = "PowerHub v3.0.29";
 
     const els = {
       announcementText: document.getElementById("powerhubAnnouncementText"),
@@ -761,6 +768,34 @@
       if (els.announcementModalBody) els.announcementModalBody.textContent = latestAnnouncement;
     }
 
+    // Whiteboard card: active job count, unassigned count, and the first few jobs with their lead.
+    async function loadWhiteboardSummary() {
+      const summary = document.getElementById("whiteboardSummary");
+      const list = document.getElementById("whiteboardJobs");
+      if (!summary || !list) return;
+      try {
+        const response = await fetch(WHITEBOARD_FEED_URL, { cache: "no-store" });
+        const out = await response.json();
+        if (!out || !out.ok) throw new Error((out && out.error) || "Whiteboard unavailable");
+        const board = out.data;
+        const people = {};
+        board.people.forEach(p => { people[p.id] = p; });
+        const jobs = board.jobs.filter(j => j.onBoard).sort((a, b) => a.jobNo.localeCompare(b.jobNo, undefined, { numeric: true }));
+        const assigned = new Set(board.assignments.map(a => a.nodeId));
+        const unassigned = board.people.filter(p => p.visible && !assigned.has(p.id)).length;
+
+        summary.textContent = `${jobs.length} active job${jobs.length === 1 ? "" : "s"} · ${unassigned} unassigned`;
+        list.innerHTML = jobs.slice(0, WHITEBOARD_JOBS_SHOWN).map(job => {
+          const lead = board.assignments.find(a => a.jobNo === job.jobNo && a.role === "Lead");
+          const leadName = lead && people[lead.nodeId] ? people[lead.nodeId].name : "No lead";
+          return `<li>${escapeHtml(job.jobNo)}<em>${escapeHtml(leadName)}</em></li>`;
+        }).join("") + (jobs.length > WHITEBOARD_JOBS_SHOWN ? `<li class="whiteboard-more">+${jobs.length - WHITEBOARD_JOBS_SHOWN} more</li>` : "");
+      } catch (err) {
+        summary.textContent = "Tap to open crew assignments.";
+        list.innerHTML = "";
+      }
+    }
+
     async function loadSafetySnapshot() {
       setLoader(els.lastUpdate, "Loading latest update", "inline");
       els.openItemsCount.textContent = "-";
@@ -961,6 +996,7 @@
     setupPowerHubAppModal();
     loadPowerHubAnnouncement();
     loadSafetySnapshot();
+    loadWhiteboardSummary();
   </script>
 </body>
 </html>
