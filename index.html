@@ -110,16 +110,16 @@
     .whiteboard-box .box-count { display:inline-flex; align-items:center; justify-content:center; border:1px solid rgba(18,63,115,.14); background:rgba(234,242,251,.72); color:var(--muted); border-radius:999px; padding:3px 8px; font-size:.66rem; font-weight:900; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
     .whiteboard-box.wb-collapsed .whiteboard-body { display:none; }
     .whiteboard-box.wb-collapsed .followup-box-header { border-bottom:0; }
-    .whiteboard-body { display:grid; gap:8px; padding:10px 14px 12px; }
+    .whiteboard-body { display:grid; gap:6px; padding:8px 14px 10px; }
+    .whiteboard-scroll { max-height:104px; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; }
     .whiteboard-summary { color:var(--muted); font-size:.78rem; font-weight:800; }
     .whiteboard-table { width:100%; table-layout:fixed; border-collapse:collapse; font-size:.78rem; }
-    .whiteboard-table th { padding:0 6px 4px 0; color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.06em; text-transform:uppercase; text-align:left; }
+    .whiteboard-table th { position:sticky; top:0; z-index:1; background:#fff; padding:0 6px 4px 0; color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.06em; text-transform:uppercase; text-align:left; }
     .whiteboard-table td { padding:5px 6px 5px 0; border-top:1px solid rgba(216,224,234,.8); color:var(--blue-dark); font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .whiteboard-table th:last-child, .whiteboard-table td:last-child { padding-right:0; text-align:right; }
     .whiteboard-table td.wb-customer, .whiteboard-table td.wb-lead { color:var(--text); font-weight:750; }
     .whiteboard-table .wb-col-job { width:22%; }
     .whiteboard-table .wb-col-lead { width:32%; }
-    .whiteboard-table td.whiteboard-more { color:var(--muted); font-size:.74rem; font-weight:800; text-align:left; }
     .coming-soon-card { display:grid; gap:8px; min-height:112px; padding:18px; background:rgba(255,255,255,.72); border:1px dashed rgba(18,63,115,.26); border-radius:22px; box-shadow:0 8px 22px rgba(15,23,42,.05); backdrop-filter:blur(8px); }
     .coming-soon-badge { width:max-content; border-radius:999px; padding:5px 10px; background:var(--blue-soft); color:var(--blue-dark); font-size:.68rem; font-weight:950; letter-spacing:.075em; text-transform:uppercase; }
     .coming-soon-card strong { color:var(--blue-dark); font-size:1.02rem; }
@@ -331,11 +331,13 @@
             <div class="followup-box-header"><h3>Whiteboard</h3><span class="box-count" id="whiteboardCount"></span></div>
             <div class="whiteboard-body">
               <span class="whiteboard-summary" id="whiteboardSummary"><span class="power-loader power-loader--inline" role="status" aria-label="Loading crew assignments"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading crew assignments</span></span></span>
-              <table class="whiteboard-table" id="whiteboardTable" hidden>
+              <div class="whiteboard-scroll" id="whiteboardScroll" hidden>
+              <table class="whiteboard-table" id="whiteboardTable">
                 <colgroup><col class="wb-col-job"><col><col class="wb-col-lead"></colgroup>
                 <thead><tr><th>Job #</th><th>Customer</th><th>Lead</th></tr></thead>
                 <tbody id="whiteboardJobs"></tbody>
               </table>
+              </div>
             </div>
           </a>
         </div>
@@ -356,7 +358,7 @@
     <footer class="footer">
       <p class="footer-brand">Coastal Bend Power Services, LLC — PowerHub</p>
       <p class="footer-disclaimer">Internal use only. This site is intended for Coastal Bend Power Services, LLC employees and authorized personnel. Do not share links, documents, screenshots, or site content with external parties unless approved by company management.</p>
-      <p class="site-version">Version: PowerHub v3.0.32</p>
+      <p class="site-version">Version: PowerHub v3.0.33</p>
     </footer>
   </main>
 
@@ -384,8 +386,7 @@
     const UC_ANNOUNCEMENT_FEED_URL = "https://script.google.com/macros/s/AKfycbw3Y1YrNwwmGQE7OWVizNoxLI_OpMZ2CxbHJO5sm-NUd1r6a5vOSvzg8rb_PKjODcEy_g/exec?action=feed";
     const POWER_LOADER_SRC = "assets/loading_spinner_electric_ring.svg";
     const WHITEBOARD_FEED_URL = "https://script.google.com/macros/s/AKfycbw22j6Z8pW_uPzsElHs3qTUCyeqnDGhYwegQMIGLFxLL_8UDJh2wzzyIsYx5muuIi7G/exec?action=getBoard";
-    const WHITEBOARD_JOBS_SHOWN = 4;
-    const POWERHUB_VERSION = "PowerHub v3.0.32";
+    const POWERHUB_VERSION = "PowerHub v3.0.33";
 
     const els = {
       announcementText: document.getElementById("powerhubAnnouncementText"),
@@ -789,7 +790,7 @@
     async function loadWhiteboardSummary() {
       const summary = document.getElementById("whiteboardSummary");
       const list = document.getElementById("whiteboardJobs");
-      const table = document.getElementById("whiteboardTable");
+      const table = document.getElementById("whiteboardScroll");
       const count = document.getElementById("whiteboardCount");
       if (!summary || !list || !table) return;
       try {
@@ -805,12 +806,12 @@
 
         summary.textContent = `${jobs.length} active job${jobs.length === 1 ? "" : "s"} · ${unassigned} unassigned`;
         if (count) count.textContent = `${jobs.length} job${jobs.length === 1 ? "" : "s"}`;
-        list.innerHTML = jobs.slice(0, WHITEBOARD_JOBS_SHOWN).map(job => {
+        list.innerHTML = jobs.map(job => {
           const lead = board.assignments.find(a => a.jobNo === job.jobNo && a.role === "Lead");
           const leadName = lead && people[lead.nodeId] ? people[lead.nodeId].name : "No lead";
           const customer = job.customer || "—";
           return `<tr><td>${escapeHtml(job.jobNo)}</td><td class="wb-customer" title="${escapeHtml(customer)}">${escapeHtml(customer)}</td><td class="wb-lead">${escapeHtml(leadName)}</td></tr>`;
-        }).join("") + (jobs.length > WHITEBOARD_JOBS_SHOWN ? `<tr><td class="whiteboard-more" colspan="3">+${jobs.length - WHITEBOARD_JOBS_SHOWN} more</td></tr>` : "");
+        }).join("");
         table.hidden = jobs.length === 0;
       } catch (err) {
         summary.textContent = "Tap to open crew assignments.";
