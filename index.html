@@ -104,11 +104,19 @@
     .crew-card { min-height:82px; padding:14px; gap:6px; }
     .crew-card strong { font-size:.94rem; }
     .crew-card span { font-size:.78rem; line-height:1.28; }
-    .whiteboard-card { justify-content:flex-start; }
-    .whiteboard-jobs { list-style:none; margin:2px 0 0; padding:0; display:grid; gap:4px; }
-    .whiteboard-jobs li { display:flex; justify-content:space-between; gap:8px; font-size:.78rem; font-weight:800; color:var(--blue-dark); border-top:1px solid rgba(216,224,234,.8); padding-top:4px; }
-    .whiteboard-jobs li em { font-style:normal; color:var(--muted); font-weight:750; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .whiteboard-more { color:var(--muted); font-size:.74rem; font-weight:800; }
+    .whiteboard-box { text-decoration:none; }
+    .whiteboard-box .followup-box-header { background:linear-gradient(90deg, var(--blue-dark), var(--blue)); border-bottom-color:transparent; }
+    .whiteboard-box .followup-box-header h3 { color:#fff; }
+    .whiteboard-body { display:grid; gap:8px; padding:10px 14px 12px; }
+    .whiteboard-summary { color:var(--muted); font-size:.78rem; font-weight:800; }
+    .whiteboard-table { width:100%; table-layout:fixed; border-collapse:collapse; font-size:.78rem; }
+    .whiteboard-table th { padding:0 6px 4px 0; color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.06em; text-transform:uppercase; text-align:left; }
+    .whiteboard-table td { padding:5px 6px 5px 0; border-top:1px solid rgba(216,224,234,.8); color:var(--blue-dark); font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .whiteboard-table th:last-child, .whiteboard-table td:last-child { padding-right:0; text-align:right; }
+    .whiteboard-table td.wb-customer, .whiteboard-table td.wb-lead { color:var(--text); font-weight:750; }
+    .whiteboard-table .wb-col-job { width:22%; }
+    .whiteboard-table .wb-col-lead { width:32%; }
+    .whiteboard-table td.whiteboard-more { color:var(--muted); font-size:.74rem; font-weight:800; text-align:left; }
     .coming-soon-card { display:grid; gap:8px; min-height:112px; padding:18px; background:rgba(255,255,255,.72); border:1px dashed rgba(18,63,115,.26); border-radius:22px; box-shadow:0 8px 22px rgba(15,23,42,.05); backdrop-filter:blur(8px); }
     .coming-soon-badge { width:max-content; border-radius:999px; padding:5px 10px; background:var(--blue-soft); color:var(--blue-dark); font-size:.68rem; font-weight:950; letter-spacing:.075em; text-transform:uppercase; }
     .coming-soon-card strong { color:var(--blue-dark); font-size:1.02rem; }
@@ -141,7 +149,8 @@
     @media (max-width: 700px) {
       .followup-box.mobile-collapsible .followup-box-header { cursor:pointer; }
       .followup-box.mobile-collapsed .followup-list,
-      .followup-box.mobile-collapsed .followup-empty { display:none; }
+      .followup-box.mobile-collapsed .followup-empty,
+      .followup-box.mobile-collapsed .whiteboard-body { display:none; }
       .followup-box.mobile-collapsible .box-count {
         display:inline-flex;
         align-items:center;
@@ -157,6 +166,7 @@
         text-transform:uppercase;
         white-space:nowrap;
       }
+      .whiteboard-box.mobile-collapsible .box-count { border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.14); color:#fff; }
     }
     .followup-list { display:grid; gap:0; background:#fff; }
     .followup-item { display:grid; gap:4px; padding:11px 14px; border-top:1px solid rgba(216,224,234,.78); }
@@ -316,10 +326,16 @@
       <section class="hub-column crew-section" aria-labelledby="team-tools-title">
         <div class="section-title"><h2 id="team-tools-title">Team Tools</h2><p>Field shortcuts, team resources, and support tools.</p></div>
         <div class="hub-card-grid" id="team-tools">
-          <a class="resource-card crew-card whiteboard-card" href="https://coastalbendpower.github.io/Whiteboard/view.html" aria-label="Open the Whiteboard crew assignments">
-            <strong>Whiteboard</strong>
-            <span id="whiteboardSummary"><span class="power-loader power-loader--inline" role="status" aria-label="Loading crew assignments"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading crew assignments</span></span></span>
-            <ul class="whiteboard-jobs" id="whiteboardJobs"></ul>
+          <a class="followup-box whiteboard-box mobile-collapsible mobile-collapsed" id="whiteboardBox" href="https://coastalbendpower.github.io/Whiteboard/view.html" aria-label="Open the Whiteboard crew assignments">
+            <div class="followup-box-header"><h3>Whiteboard</h3><span class="box-count" id="whiteboardCount"></span></div>
+            <div class="whiteboard-body">
+              <span class="whiteboard-summary" id="whiteboardSummary"><span class="power-loader power-loader--inline" role="status" aria-label="Loading crew assignments"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading crew assignments</span></span></span>
+              <table class="whiteboard-table" id="whiteboardTable" hidden>
+                <colgroup><col class="wb-col-job"><col><col class="wb-col-lead"></colgroup>
+                <thead><tr><th>Job #</th><th>Customer</th><th>Lead</th></tr></thead>
+                <tbody id="whiteboardJobs"></tbody>
+              </table>
+            </div>
           </a>
         </div>
       </section>
@@ -339,7 +355,7 @@
     <footer class="footer">
       <p class="footer-brand">Coastal Bend Power Services, LLC — PowerHub</p>
       <p class="footer-disclaimer">Internal use only. This site is intended for Coastal Bend Power Services, LLC employees and authorized personnel. Do not share links, documents, screenshots, or site content with external parties unless approved by company management.</p>
-      <p class="site-version">Version: PowerHub v3.0.30</p>
+      <p class="site-version">Version: PowerHub v3.0.31</p>
     </footer>
   </main>
 
@@ -368,7 +384,7 @@
     const POWER_LOADER_SRC = "assets/loading_spinner_electric_ring.svg";
     const WHITEBOARD_FEED_URL = "https://script.google.com/macros/s/AKfycbw22j6Z8pW_uPzsElHs3qTUCyeqnDGhYwegQMIGLFxLL_8UDJh2wzzyIsYx5muuIi7G/exec?action=getBoard";
     const WHITEBOARD_JOBS_SHOWN = 4;
-    const POWERHUB_VERSION = "PowerHub v3.0.30";
+    const POWERHUB_VERSION = "PowerHub v3.0.31";
 
     const els = {
       announcementText: document.getElementById("powerhubAnnouncementText"),
@@ -768,11 +784,13 @@
       if (els.announcementModalBody) els.announcementModalBody.textContent = latestAnnouncement;
     }
 
-    // Whiteboard card: active job count, unassigned count, and the first few jobs with their lead.
+    // Whiteboard box: active job count, unassigned count, and the first few jobs with customer and lead.
     async function loadWhiteboardSummary() {
       const summary = document.getElementById("whiteboardSummary");
       const list = document.getElementById("whiteboardJobs");
-      if (!summary || !list) return;
+      const table = document.getElementById("whiteboardTable");
+      const count = document.getElementById("whiteboardCount");
+      if (!summary || !list || !table) return;
       try {
         const response = await fetch(WHITEBOARD_FEED_URL, { cache: "no-store" });
         const out = await response.json();
@@ -785,14 +803,19 @@
         const unassigned = board.people.filter(p => p.visible && !assigned.has(p.id)).length;
 
         summary.textContent = `${jobs.length} active job${jobs.length === 1 ? "" : "s"} · ${unassigned} unassigned`;
+        if (count) count.textContent = `${jobs.length} job${jobs.length === 1 ? "" : "s"}`;
         list.innerHTML = jobs.slice(0, WHITEBOARD_JOBS_SHOWN).map(job => {
           const lead = board.assignments.find(a => a.jobNo === job.jobNo && a.role === "Lead");
           const leadName = lead && people[lead.nodeId] ? people[lead.nodeId].name : "No lead";
-          return `<li>${escapeHtml(job.jobNo)}<em>${escapeHtml(leadName)}</em></li>`;
-        }).join("") + (jobs.length > WHITEBOARD_JOBS_SHOWN ? `<li class="whiteboard-more">+${jobs.length - WHITEBOARD_JOBS_SHOWN} more</li>` : "");
+          const customer = job.customer || "—";
+          return `<tr><td>${escapeHtml(job.jobNo)}</td><td class="wb-customer" title="${escapeHtml(customer)}">${escapeHtml(customer)}</td><td class="wb-lead">${escapeHtml(leadName)}</td></tr>`;
+        }).join("") + (jobs.length > WHITEBOARD_JOBS_SHOWN ? `<tr><td class="whiteboard-more" colspan="3">+${jobs.length - WHITEBOARD_JOBS_SHOWN} more</td></tr>` : "");
+        table.hidden = jobs.length === 0;
       } catch (err) {
         summary.textContent = "Tap to open crew assignments.";
+        if (count) count.textContent = "";
         list.innerHTML = "";
+        table.hidden = true;
       }
     }
 
