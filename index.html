@@ -201,11 +201,16 @@
     .job-detail-row { display:grid; gap:2px; }
     .job-detail-label { color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.06em; text-transform:uppercase; }
     .job-detail-value { color:var(--text); font-weight:800; line-height:1.4; }
-    .job-detail-value ul { margin:0; padding-left:18px; }
+    .job-detail-name { display:block; }
+    .job-detail-row.has-divider { padding-bottom:12px; border-bottom:1px solid rgba(182,199,218,.9); }
+    .job-detail-row.is-lead { padding:8px 12px; border-radius:12px; border-left:4px solid #4aa8ef; background:linear-gradient(90deg, rgba(234,242,251,.95), rgba(255,255,255,.9)); }
+    .job-detail-row.is-lead .job-detail-label { color:#1b6fb5; }
+    .job-detail-row.is-lead .job-detail-value { color:var(--blue-dark); font-size:1.08em; font-weight:950; }
+    #jobModal .modal-head { padding-bottom:10px; border-bottom:1px solid rgba(182,199,218,.9); }
     .job-detail-notes { white-space:pre-wrap; font-weight:700; }
     .job-hover { display:none; position:fixed; z-index:9000; width:min(300px, calc(100vw - 16px)); padding:12px 14px; border-radius:16px; border:1px solid rgba(74,168,239,.35); background:rgba(255,255,255,.98); box-shadow:0 16px 34px rgba(15,23,42,.22), 0 0 0 3px rgba(74,168,239,.12); pointer-events:none; }
     .job-hover.is-open { display:grid; }
-    .job-hover-title { color:var(--blue-dark); font-size:.95rem; font-weight:950; }
+    .job-hover-title { color:var(--blue-dark); font-size:.95rem; font-weight:950; padding-bottom:8px; border-bottom:1px solid rgba(182,199,218,.9); }
     .job-hover .job-detail-value { font-size:.82rem; }
     .modal-backdrop { display:none; position:fixed; inset:0; z-index:10000; padding:18px; background:rgba(5,16,34,.64); align-items:center; justify-content:center; }
     .modal-backdrop.is-open { display:flex; }
@@ -371,7 +376,7 @@
     <footer class="footer">
       <p class="footer-brand">Coastal Bend Power Services, LLC — PowerHub</p>
       <p class="footer-disclaimer">Internal use only. This site is intended for Coastal Bend Power Services, LLC employees and authorized personnel. Do not share links, documents, screenshots, or site content with external parties unless approved by company management.</p>
-      <p class="site-version">Version: PowerHub v3.0.35</p>
+      <p class="site-version">Version: PowerHub v3.0.36</p>
     </footer>
   </main>
 
@@ -409,7 +414,7 @@
     const UC_ANNOUNCEMENT_FEED_URL = "https://script.google.com/macros/s/AKfycbw3Y1YrNwwmGQE7OWVizNoxLI_OpMZ2CxbHJO5sm-NUd1r6a5vOSvzg8rb_PKjODcEy_g/exec?action=feed";
     const POWER_LOADER_SRC = "assets/loading_spinner_electric_ring.svg";
     const WHITEBOARD_FEED_URL = "https://script.google.com/macros/s/AKfycbw22j6Z8pW_uPzsElHs3qTUCyeqnDGhYwegQMIGLFxLL_8UDJh2wzzyIsYx5muuIi7G/exec?action=getBoard";
-    const POWERHUB_VERSION = "PowerHub v3.0.35";
+    const POWERHUB_VERSION = "PowerHub v3.0.36";
 
     const els = {
       announcementText: document.getElementById("powerhubAnnouncementText"),
@@ -812,11 +817,11 @@
     let whiteboardJobData = {};
     function jobDetailHtml(entry) {
       const { job, lead, crew } = entry;
-      const row = (label, html) => `<div class="job-detail-row"><span class="job-detail-label">${label}</span><div class="job-detail-value">${html}</div></div>`;
-      const names = list => list.length ? `<ul>${list.map(n => `<li>${escapeHtml(n)}</li>`).join("")}</ul>` : "—";
+      const row = (label, html, cls = "") => `<div class="job-detail-row ${cls}"><span class="job-detail-label">${label}</span><div class="job-detail-value">${html}</div></div>`;
+      const names = list => list.length ? list.map(n => `<span class="job-detail-name">${escapeHtml(n)}</span>`).join("") : "—";
       return row("Customer", escapeHtml(job.customer || "—")) +
-        row("Location", escapeHtml(job.location || "—")) +
-        row("Lead", names(lead)) +
+        row("Location", escapeHtml(job.location || "—"), "has-divider") +
+        row("Lead", names(lead), "is-lead") +
         row("Crew", names(crew)) +
         (job.notes ? row("Notes", `<div class="job-detail-notes">${escapeHtml(job.notes)}</div>`) : "");
     }
