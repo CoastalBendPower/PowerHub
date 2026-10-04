@@ -203,6 +203,10 @@
     .job-detail-value { color:var(--text); font-weight:800; line-height:1.4; }
     .job-detail-value ul { margin:0; padding-left:18px; }
     .job-detail-notes { white-space:pre-wrap; font-weight:700; }
+    .job-hover { display:none; position:fixed; z-index:9000; width:min(300px, calc(100vw - 16px)); padding:12px 14px; border-radius:16px; border:1px solid rgba(74,168,239,.35); background:rgba(255,255,255,.98); box-shadow:0 16px 34px rgba(15,23,42,.22), 0 0 0 3px rgba(74,168,239,.12); pointer-events:none; }
+    .job-hover.is-open { display:grid; }
+    .job-hover-title { color:var(--blue-dark); font-size:.95rem; font-weight:950; }
+    .job-hover .job-detail-value { font-size:.82rem; }
     .modal-backdrop { display:none; position:fixed; inset:0; z-index:10000; padding:18px; background:rgba(5,16,34,.64); align-items:center; justify-content:center; }
     .modal-backdrop.is-open { display:flex; }
     .modal-card { width:min(560px, 100%); max-height:80vh; overflow:auto; border-radius:24px; border:1px solid rgba(0,157,255,.24); background:rgba(255,255,255,.97); box-shadow:0 28px 70px rgba(0,0,0,.30); padding:20px; }
@@ -367,9 +371,11 @@
     <footer class="footer">
       <p class="footer-brand">Coastal Bend Power Services, LLC — PowerHub</p>
       <p class="footer-disclaimer">Internal use only. This site is intended for Coastal Bend Power Services, LLC employees and authorized personnel. Do not share links, documents, screenshots, or site content with external parties unless approved by company management.</p>
-      <p class="site-version">Version: PowerHub v3.0.34</p>
+      <p class="site-version">Version: PowerHub v3.0.35</p>
     </footer>
   </main>
+
+  <div class="job-hover job-detail" id="jobHover" aria-hidden="true"></div>
 
   <div class="modal-backdrop" id="jobModal" role="dialog" aria-modal="true" aria-labelledby="jobModalTitle">
     <div class="modal-card">
@@ -403,7 +409,7 @@
     const UC_ANNOUNCEMENT_FEED_URL = "https://script.google.com/macros/s/AKfycbw3Y1YrNwwmGQE7OWVizNoxLI_OpMZ2CxbHJO5sm-NUd1r6a5vOSvzg8rb_PKjODcEy_g/exec?action=feed";
     const POWER_LOADER_SRC = "assets/loading_spinner_electric_ring.svg";
     const WHITEBOARD_FEED_URL = "https://script.google.com/macros/s/AKfycbw22j6Z8pW_uPzsElHs3qTUCyeqnDGhYwegQMIGLFxLL_8UDJh2wzzyIsYx5muuIi7G/exec?action=getBoard";
-    const POWERHUB_VERSION = "PowerHub v3.0.34";
+    const POWERHUB_VERSION = "PowerHub v3.0.35";
 
     const els = {
       announcementText: document.getElementById("powerhubAnnouncementText"),
@@ -804,26 +810,57 @@
     }
 
     let whiteboardJobData = {};
-    function openJobModal(jobNo) {
-      const entry = whiteboardJobData[jobNo];
-      const modal = document.getElementById("jobModal");
-      if (!entry || !modal) return;
+    function jobDetailHtml(entry) {
       const { job, lead, crew } = entry;
       const row = (label, html) => `<div class="job-detail-row"><span class="job-detail-label">${label}</span><div class="job-detail-value">${html}</div></div>`;
       const names = list => list.length ? `<ul>${list.map(n => `<li>${escapeHtml(n)}</li>`).join("")}</ul>` : "—";
-      document.getElementById("jobModalTitle").textContent = `Job ${job.jobNo}`;
-      document.getElementById("jobModalBody").innerHTML =
-        row("Customer", escapeHtml(job.customer || "—")) +
+      return row("Customer", escapeHtml(job.customer || "—")) +
         row("Location", escapeHtml(job.location || "—")) +
         row("Lead", names(lead)) +
         row("Crew", names(crew)) +
         (job.notes ? row("Notes", `<div class="job-detail-notes">${escapeHtml(job.notes)}</div>`) : "");
+    }
+    function openJobModal(jobNo) {
+      const entry = whiteboardJobData[jobNo];
+      const modal = document.getElementById("jobModal");
+      if (!entry || !modal) return;
+      document.getElementById("jobModalTitle").textContent = `Job ${entry.job.jobNo}`;
+      document.getElementById("jobModalBody").innerHTML = jobDetailHtml(entry);
       modal.classList.add("is-open");
     }
     function setupJobModal() {
       const modal = document.getElementById("jobModal");
       const close = () => modal?.classList.remove("is-open");
-      document.getElementById("whiteboardJobs")?.addEventListener("click", event => {
+      const hoverCard = document.getElementById("jobHover");
+      const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const jobList = document.getElementById("whiteboardJobs");
+      const hideHover = () => hoverCard?.classList.remove("is-open");
+      const placeHover = event => {
+        const pad = 14, w = hoverCard.offsetWidth, h = hoverCard.offsetHeight;
+        let x = event.clientX + pad, y = event.clientY + pad;
+        if (x + w > window.innerWidth - 8) x = event.clientX - w - pad;
+        if (y + h > window.innerHeight - 8) y = window.innerHeight - h - 8;
+        hoverCard.style.left = Math.max(8, x) + "px";
+        hoverCard.style.top = Math.max(8, y) + "px";
+      };
+      // Mouse: hover previews the job, click follows the card link to the Whiteboard.
+      // Touch: no hover, so a tap opens the popup (it has an Open full Whiteboard button).
+      jobList?.addEventListener("mousemove", event => {
+        if (!canHover.matches || !hoverCard) return;
+        const tr = event.target.closest("tr[data-job]");
+        const entry = tr && whiteboardJobData[tr.dataset.job];
+        if (!entry) { hideHover(); return; }
+        if (hoverCard.dataset.job !== tr.dataset.job) {
+          hoverCard.dataset.job = tr.dataset.job;
+          hoverCard.innerHTML = `<div class="job-hover-title">Job ${escapeHtml(entry.job.jobNo)}</div>` + jobDetailHtml(entry);
+        }
+        hoverCard.classList.add("is-open");
+        placeHover(event);
+      });
+      jobList?.addEventListener("mouseleave", hideHover);
+      document.getElementById("whiteboardScroll")?.addEventListener("scroll", hideHover);
+      jobList?.addEventListener("click", event => {
+        if (canHover.matches) return;
         const tr = event.target.closest("tr[data-job]");
         if (!tr) return;
         event.preventDefault();
