@@ -105,8 +105,11 @@
     .crew-card strong { font-size:.94rem; }
     .crew-card span { font-size:.78rem; line-height:1.28; }
     .whiteboard-box { text-decoration:none; }
-    .whiteboard-box .followup-box-header { background:linear-gradient(90deg, var(--blue-dark), var(--blue)); border-bottom-color:transparent; }
-    .whiteboard-box .followup-box-header h3 { color:#fff; }
+    .followup-box.whiteboard-box { border-left-color:#4aa8ef; box-shadow:0 8px 22px rgba(74,168,239,.22); }
+    .whiteboard-box .followup-box-header { cursor:pointer; }
+    .whiteboard-box .box-count { display:inline-flex; align-items:center; justify-content:center; border:1px solid rgba(18,63,115,.14); background:rgba(234,242,251,.72); color:var(--muted); border-radius:999px; padding:3px 8px; font-size:.66rem; font-weight:900; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; }
+    .whiteboard-box.wb-collapsed .whiteboard-body { display:none; }
+    .whiteboard-box.wb-collapsed .followup-box-header { border-bottom:0; }
     .whiteboard-body { display:grid; gap:8px; padding:10px 14px 12px; }
     .whiteboard-summary { color:var(--muted); font-size:.78rem; font-weight:800; }
     .whiteboard-table { width:100%; table-layout:fixed; border-collapse:collapse; font-size:.78rem; }
@@ -149,8 +152,7 @@
     @media (max-width: 700px) {
       .followup-box.mobile-collapsible .followup-box-header { cursor:pointer; }
       .followup-box.mobile-collapsed .followup-list,
-      .followup-box.mobile-collapsed .followup-empty,
-      .followup-box.mobile-collapsed .whiteboard-body { display:none; }
+      .followup-box.mobile-collapsed .followup-empty { display:none; }
       .followup-box.mobile-collapsible .box-count {
         display:inline-flex;
         align-items:center;
@@ -166,7 +168,6 @@
         text-transform:uppercase;
         white-space:nowrap;
       }
-      .whiteboard-box.mobile-collapsible .box-count { border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.14); color:#fff; }
     }
     .followup-list { display:grid; gap:0; background:#fff; }
     .followup-item { display:grid; gap:4px; padding:11px 14px; border-top:1px solid rgba(216,224,234,.78); }
@@ -326,7 +327,7 @@
       <section class="hub-column crew-section" aria-labelledby="team-tools-title">
         <div class="section-title"><h2 id="team-tools-title">Team Tools</h2><p>Field shortcuts, team resources, and support tools.</p></div>
         <div class="hub-card-grid" id="team-tools">
-          <a class="followup-box whiteboard-box mobile-collapsible mobile-collapsed" id="whiteboardBox" href="https://coastalbendpower.github.io/Whiteboard/view.html" aria-label="Open the Whiteboard crew assignments">
+          <a class="followup-box whiteboard-box wb-collapsed" id="whiteboardBox" href="https://coastalbendpower.github.io/Whiteboard/view.html" aria-label="Open the Whiteboard crew assignments">
             <div class="followup-box-header"><h3>Whiteboard</h3><span class="box-count" id="whiteboardCount"></span></div>
             <div class="whiteboard-body">
               <span class="whiteboard-summary" id="whiteboardSummary"><span class="power-loader power-loader--inline" role="status" aria-label="Loading crew assignments"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading crew assignments</span></span></span>
@@ -355,7 +356,7 @@
     <footer class="footer">
       <p class="footer-brand">Coastal Bend Power Services, LLC — PowerHub</p>
       <p class="footer-disclaimer">Internal use only. This site is intended for Coastal Bend Power Services, LLC employees and authorized personnel. Do not share links, documents, screenshots, or site content with external parties unless approved by company management.</p>
-      <p class="site-version">Version: PowerHub v3.0.31</p>
+      <p class="site-version">Version: PowerHub v3.0.32</p>
     </footer>
   </main>
 
@@ -384,7 +385,7 @@
     const POWER_LOADER_SRC = "assets/loading_spinner_electric_ring.svg";
     const WHITEBOARD_FEED_URL = "https://script.google.com/macros/s/AKfycbw22j6Z8pW_uPzsElHs3qTUCyeqnDGhYwegQMIGLFxLL_8UDJh2wzzyIsYx5muuIi7G/exec?action=getBoard";
     const WHITEBOARD_JOBS_SHOWN = 4;
-    const POWERHUB_VERSION = "PowerHub v3.0.31";
+    const POWERHUB_VERSION = "PowerHub v3.0.32";
 
     const els = {
       announcementText: document.getElementById("powerhubAnnouncementText"),
@@ -855,6 +856,16 @@
         renderBox(els.trainingBox, els.trainingCount, [], "Unable to load training status. Open SafetyHQ for full details.", "Training Item", "Training Requirement");
       }
     }
+    function setupWhiteboardCollapse() {
+      document.addEventListener("click", event => {
+        const header = event.target.closest(".whiteboard-box .followup-box-header");
+        if (!header) return;
+        event.preventDefault();
+        const box = header.closest(".whiteboard-box");
+        box.classList.toggle("wb-collapsed");
+        box.setAttribute("aria-expanded", String(!box.classList.contains("wb-collapsed")));
+      });
+    }
     function setupMobileSnapshotCollapse() {
       document.addEventListener("click", event => {
         const header = event.target.closest(".followup-box-header");
@@ -1014,6 +1025,7 @@
 
     setupAnnouncementModal();
     setupMobileSnapshotCollapse();
+    setupWhiteboardCollapse();
     setupMissedHistoryPopups();
     setupQuickLinks();
     setupPowerHubAppModal();
