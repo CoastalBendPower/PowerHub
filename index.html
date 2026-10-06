@@ -95,15 +95,15 @@
     .user-text small { font-size:.7rem; font-weight:650; opacity:.78; }
     .user-text strong { font-size:.92rem; font-weight:850; }
 
-    .app-shell { display:grid; grid-template-columns:240px minmax(0, 1fr); align-items:start; }
-    .side-nav { position:sticky; top:72px; height:calc(100vh - 72px); display:flex; flex-direction:column; gap:6px; padding:18px 12px; overflow-y:auto; background:linear-gradient(180deg, rgba(4,16,31,.96), rgba(10,38,72,.94)); border-right:1px solid rgba(0,157,255,.22); }
+    .app-shell { display:grid; grid-template-columns:256px minmax(0, 1fr); align-items:start; }
+    .side-nav { position:sticky; top:72px; height:calc(100vh - 72px); display:flex; flex-direction:column; gap:6px; padding:18px 12px; overflow-y:auto; overflow-x:hidden; background:linear-gradient(180deg, rgba(4,16,31,.96), rgba(10,38,72,.94)); border-right:1px solid rgba(0,157,255,.22); }
     .side-link { display:flex; align-items:center; gap:14px; width:100%; padding:10px 14px; border:0; border-radius:12px; background:transparent; color:rgba(255,255,255,.92); font:inherit; font-size:.95rem; font-weight:750; text-align:left; text-decoration:none; cursor:pointer; transition:background .16s ease, box-shadow .16s ease; }
     .side-link svg { flex:0 0 24px; width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
     .side-link small { display:block; margin-top:1px; font-size:.72rem; font-weight:650; opacity:.75; }
     .side-link:hover, .side-link:focus-visible { background:rgba(0,157,255,.16); outline:none; }
     .side-link.is-active { background:linear-gradient(90deg, #0f6fd1, #1590f0); box-shadow:0 6px 18px rgba(0,157,255,.32); color:#fff; }
     .side-group-label { margin:14px 14px 2px; padding-top:12px; border-top:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.55); font-size:.68rem; font-weight:950; letter-spacing:.12em; text-transform:uppercase; }
-    .side-link.is-disabled { opacity:.5; cursor:default; }
+    .side-link.is-disabled { opacity:.5; cursor:default; padding-right:8px; }
     .side-link.is-disabled:hover { background:transparent; }
     .side-link span { white-space:nowrap; }
     .side-link { gap:12px; }
@@ -287,15 +287,55 @@
     .note-label { display:block; margin-bottom:2px; color:#1b6fb5; font-size:.68rem; font-weight:950; letter-spacing:.1em; text-transform:uppercase; }
     .note-more { flex:0 0 auto; padding:8px 14px; border-radius:999px; background:var(--blue); color:#fff; font-size:.78rem; font-weight:900; white-space:nowrap; }
 
-    .tools-section { margin:0 0 6px; }
-    .tool-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:14px; }
-    .tool-tile { display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:14px; align-items:center; padding:14px 16px; border:1px solid rgba(216,224,234,.8); border-radius:20px; background:rgba(255,255,255,.82); box-shadow:0 8px 22px rgba(15,23,42,.07); text-decoration:none; backdrop-filter:blur(8px); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
-    .tool-tile:hover, .tool-tile:focus-visible { transform:translateY(-3px); border-color:#7fb8ec; box-shadow:0 14px 30px rgba(0,157,255,.18); outline:none; }
-    .tool-icon { grid-row:1 / 3; width:64px; height:64px; object-fit:contain; filter:drop-shadow(0 8px 12px rgba(11,74,156,.30)); }
-    .tool-icon-fallback { display:grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 35% 30%, #2a9bff, #0b3d82); border:3px solid #cfe0f2; box-shadow:0 8px 14px rgba(11,74,156,.30); filter:none; }
-    .tool-icon-fallback svg { width:30px; height:30px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-    .tool-tile strong { align-self:end; color:var(--blue-dark); font-size:1rem; font-weight:900; }
-    .tool-tile > span:not(.tool-icon) { align-self:start; color:var(--muted); font-size:.78rem; font-weight:700; line-height:1.3; }
+
+    .data-store { display:none !important; }
+    .glance-section { margin:0 0 10px; }
+    .glance-head { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; }
+    .glance-updated { margin-bottom:12px; color:var(--muted); font-size:.78rem; font-weight:700; white-space:nowrap; }
+    .glance-updated[hidden] { display:none; }
+    .glance-grid { display:grid; grid-template-columns:minmax(0, 1.5fr) minmax(0, 1.2fr) minmax(0, .8fr); gap:16px; align-items:stretch; }
+    .glance-card { --tone:#1b6fb5; --tone-bg:rgba(234,242,251,.9); position:relative; display:flex; flex-direction:column; gap:14px; padding:18px 20px 16px; border:1px solid rgba(216,224,234,.8); border-top:4px solid var(--tone); border-radius:20px; background:linear-gradient(180deg, var(--tone-bg), rgba(255,255,255,.94) 55%); box-shadow:0 8px 22px rgba(15,23,42,.07); text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
+    .glance-card:hover, .glance-card:focus-visible { transform:translateY(-3px); box-shadow:0 14px 30px rgba(15,23,42,.14); outline:none; }
+    .glance-card.is-alert { --tone:#c8321f; --tone-bg:rgba(253,232,232,.95); }
+    .glance-card.is-clear { --tone:#1f7a4d; --tone-bg:rgba(232,247,238,.95); }
+    .gc-head { display:flex; align-items:center; gap:12px; }
+    .gc-head h3 { margin:0; color:var(--blue-dark); font-size:1.05rem; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
+    .gc-sample { margin-left:auto; padding:3px 9px; border-radius:999px; background:#fff3cd; border:1px solid #e6c65c; color:#7a5b00; font-size:.64rem; font-weight:950; letter-spacing:.06em; text-transform:uppercase; }
+    .gc-sample[hidden] { display:none; }
+    .glance-icon { flex:0 0 44px; width:44px; height:44px; display:grid; place-items:center; border-radius:50%; background:var(--tone); box-shadow:0 6px 14px rgba(15,23,42,.18); }
+    .glance-icon svg { width:24px; height:24px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .glance-num { color:var(--tone); font-size:3.4rem; font-weight:950; line-height:1; }
+    .glance-link { margin-top:auto; color:var(--tone); font-size:.78rem; font-weight:900; }
+
+    .gc-bar { display:flex; height:18px; border-radius:999px; overflow:hidden; background:#dbe5f0; }
+    .gc-bar span { display:block; height:100%; min-width:6px; }
+    .gc-bar .seg-red { background:#c8321f; }
+    .gc-bar .seg-amber { background:#e59a1a; }
+    .gc-bar .seg-blue { background:#4aa8ef; }
+    .gc-legend { display:grid; gap:4px; }
+    .gc-row { position:relative; display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:12px; color:var(--blue-dark); font-size:.95rem; font-weight:800; cursor:default; }
+    .gc-row b { min-width:30px; font-size:1.5rem; font-weight:950; line-height:1; }
+    .gc-row.is-red b { color:#c8321f; } .gc-row.is-amber b { color:#b86b00; } .gc-row.is-blue b { color:#1b6fb5; }
+    .gc-dot { width:12px; height:12px; border-radius:50%; background:currentColor; }
+    .gc-row.is-red .gc-dot { background:#c8321f; } .gc-row.is-amber .gc-dot { background:#e59a1a; } .gc-row.is-blue .gc-dot { background:#4aa8ef; }
+    .gc-row[tabindex]:hover, .gc-row[tabindex]:focus-visible, .gc-row.is-open { background:rgba(255,255,255,.9); box-shadow:0 0 0 1px rgba(18,63,115,.14); outline:none; }
+    .gc-row[hidden] { display:none; }
+    .gc-pop { display:none; position:absolute; left:0; top:calc(100% + 6px); z-index:60; width:min(320px, 80vw); max-height:340px; overflow-y:auto; padding:10px 12px; border:1px solid rgba(18,63,115,.18); border-radius:14px; background:#fff; box-shadow:0 16px 34px rgba(15,23,42,.22); text-align:left; }
+    .gc-row:hover .gc-pop, .gc-row:focus-visible .gc-pop, .gc-row.is-open .gc-pop { display:block; }
+    .gc-pop-title { margin:0 0 6px; color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.08em; text-transform:uppercase; }
+    .gc-pop-row { display:grid; padding:6px 0; border-top:1px solid rgba(216,224,234,.8); }
+    .gc-pop-title + .gc-pop-row { border-top:0; }
+    .gc-pop-row strong { color:var(--blue-dark); font-size:.86rem; }
+    .gc-pop-row span { color:var(--muted); font-size:.74rem; font-weight:700; }
+
+    .gc-ring-wrap { display:flex; align-items:center; gap:18px; }
+    .gc-ring { --pct:0; flex:0 0 118px; width:118px; height:118px; display:grid; place-items:center; border-radius:50%; background:conic-gradient(var(--tone) calc(var(--pct) * 1%), #dbe5f0 0); }
+    .gc-ring-in { width:88px; height:88px; display:grid; place-items:center; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 1px rgba(216,224,234,.8); }
+    .gc-ring-in b { color:var(--tone); font-size:1.7rem; font-weight:950; }
+    .gc-ring-text { display:grid; gap:2px; min-width:0; }
+    .gc-ring-text strong { color:var(--blue-dark); font-size:1.02rem; font-weight:900; }
+    .gc-ring-text > span { color:var(--muted); font-size:.84rem; font-weight:750; }
+    .gc-overdue-row { margin:6px 0 0 -10px; }
 
     @media (min-width: 901px) {
       .hero-quicklinks { display:none; }
@@ -303,6 +343,7 @@
     }
 
     @media (max-width: 900px) {
+      .glance-grid { grid-template-columns:minmax(0, 1fr); }
       .app-shell { grid-template-columns:minmax(0, 1fr); }
       .side-nav { display:none; }
       .topbar { height:60px; padding:0 14px; }
@@ -352,12 +393,11 @@
     @media (max-width: 640px) {
       .topbar-name { display:none; }
       .announcement-row .announcement-main { padding:12px 14px; gap:12px; }
+      .glance-grid { grid-template-columns:minmax(0, 1fr); gap:12px; }
+      .glance-card { padding:16px 16px 14px; }
+      .gc-ring-wrap { gap:14px; }
       .note-icon { flex-basis:42px; width:42px; height:42px; }
       .note-more { display:none; }
-      .tool-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
-      .tool-tile { grid-template-columns:1fr; justify-items:center; text-align:center; padding:14px 8px; row-gap:2px; }
-      .tool-icon { grid-row:auto; margin-bottom:6px; }
-      .tool-tile strong { align-self:auto; }
       .topbar-search { margin-left:12px; }
       .topbar-actions { gap:4px; }
       .search-results, .notif-panel { position:fixed; top:66px; left:12px; right:12px; width:auto; max-height:calc(100vh - 80px); overflow-y:auto; }
@@ -508,34 +548,58 @@
       </details>
     </section>
 
-    <section class="tools-section" aria-labelledby="tools-title">
-      <div class="section-title"><h2 id="tools-title">CBPS Tools &amp; Resources</h2></div>
-      <div class="tool-grid">
-        <a class="tool-tile" href="https://coastalbendpower.github.io/SafetyHQ/">
-          <img class="tool-icon" src="assets/button_SafetyHQ_round_300.png" alt="">
-          <strong>SafetyHQ</strong>
-          <span>Safety training &amp; checklists</span>
+    <section class="glance-section" aria-labelledby="glance-title">
+      <div class="glance-head">
+        <div class="section-title"><h2 id="glance-title">CBPS at a Glance</h2></div>
+        <span class="glance-updated" id="glanceUpdated" hidden></span>
+      </div>
+      <div class="glance-grid">
+
+        <a class="glance-card gc-training" id="glanceTrainingCard" href="https://coastalbendpower.github.io/SafetyHQ/#training">
+          <div class="gc-head">
+            <span class="glance-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 8l10 5 8-4v6h2V8zM6 12.5v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3z"/></svg></span>
+            <h3>Training</h3>
+            <span class="gc-sample" id="glanceSampleTag" hidden>Sample data</span>
+          </div>
+          <div class="gc-bar" id="trainBar" aria-hidden="true"></div>
+          <div class="gc-legend">
+            <div class="gc-row is-red" id="trainRowOverdue" tabindex="0"><span class="gc-dot"></span><b id="trainNumOverdue">&ndash;</b><span>Overdue</span><div class="gc-pop" id="trainPopOverdue" role="tooltip"></div></div>
+            <div class="gc-row is-amber" id="trainRowSoon" tabindex="0"><span class="gc-dot"></span><b id="trainNumSoon">&ndash;</b><span>Due within 10 days</span><div class="gc-pop" id="trainPopSoon" role="tooltip"></div></div>
+            <div class="gc-row is-blue"><span class="gc-dot"></span><b id="trainNumLater">&ndash;</b><span>Upcoming</span></div>
+          </div>
+          <span class="glance-link">View in SafetyHQ &rarr;</span>
         </a>
-        <a class="tool-tile" href="https://coastalbendpower.github.io/Whiteboard/view.html">
-          <!-- Placeholder icon: no Whiteboard round button image exists yet. -->
-          <span class="tool-icon tool-icon-fallback" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg></span>
-          <strong>Whiteboard</strong>
-          <span>Crew assignments &amp; jobs</span>
+
+        <a class="glance-card gc-checklist" id="glanceChecklistCard" href="https://coastalbendpower.github.io/SafetyHQ/#monthly">
+          <div class="gc-head">
+            <span class="glance-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 13l2 2 4-4"/></svg></span>
+            <h3>Monthly Checklist</h3>
+          </div>
+          <div class="gc-ring-wrap">
+            <div class="gc-ring" id="checkRing" style="--pct:0"><div class="gc-ring-in"><b id="checkPct">&ndash;</b></div></div>
+            <div class="gc-ring-text">
+              <strong id="checkCount">&ndash;</strong>
+              <span id="checkDue"></span>
+              <div class="gc-row is-red gc-overdue-row" id="checkOverdueRow" tabindex="0" hidden><span class="gc-dot"></span><b id="checkOverdueNum">0</b><span>Overdue</span><div class="gc-pop" id="checkPop" role="tooltip"></div></div>
+            </div>
+          </div>
+          <span class="glance-link">View in SafetyHQ &rarr;</span>
         </a>
-        <a class="tool-tile" href="https://coastalbendpower.na.hsiplatform.com/users/sign_in" target="_blank" rel="noopener noreferrer">
-          <img class="tool-icon" src="assets/button_HSI_Login_round_300.png" alt="">
-          <strong>HSI Training</strong>
-          <span>Training platform login</span>
+
+        <a class="glance-card gc-jobs glance-neutral" href="https://coastalbendpower.github.io/Whiteboard/view.html">
+          <div class="gc-head">
+            <span class="glance-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg></span>
+            <h3>Active Jobs</h3>
+          </div>
+          <span class="glance-num" id="glanceJobs">&ndash;</span>
+          <span class="glance-link">Open Whiteboard &rarr;</span>
         </a>
-        <a class="tool-tile" href="https://account.sharesync.serverdata.net/login/v1.2/?client_id=sharesync_web_app_sts&amp;client_type=Sync-WebApp&amp;client_version=3.48.1&amp;application_client_id=5d5c5f78-10b2-0f0b-a925-606d43526abe&amp;redirect_uri=https%3A%2F%2Fsharesync.serverdata.net%2Fus4%2F&amp;locale=en-us" target="_blank" rel="noopener noreferrer">
-          <img class="tool-icon" src="assets/button_ShareSync_round_300.png" alt="">
-          <strong>ShareSync</strong>
-          <span>Company file sharing</span>
-        </a>
+
       </div>
     </section>
 
-    <section class="hub-layout">
+    <!-- Retired from view: kept hidden because search, notifications and Active Jobs still read their data from here. Move that data plumbing out, then delete this block. -->
+    <section class="hub-layout data-store" aria-hidden="true">
       <section class="hub-column safety-section" aria-labelledby="safety-title">
         <div class="snapshot-section" id="safetySnapshotLink">
           <div class="snapshot-header">
@@ -1152,6 +1216,7 @@
         if (!response.ok) throw new Error("SafetyHQ feed returned " + response.status);
         const data = await response.json();
         console.log("PowerHub SafetyHQ feed", data);
+        window.dispatchEvent(new CustomEvent("safetyfeed", { detail: data }));
 
         const checklistItems = getChecklistItems(data);
         const trainingItems = getTrainingItems(data);
@@ -1366,7 +1431,7 @@
       if (!input || !results || !bell || !badge || !panel) return;
 
       const lower = s => String(s || "").toLowerCase();
-      const goSnapshot = () => document.getElementById("safetySnapshotLink")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const goSnapshot = () => document.getElementById("glanceTrainingCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
       function overdueItems() {
         const out = [];
@@ -1482,6 +1547,112 @@
         results.hidden = true;
         setPanel(false);
       });
+
+      // ----- At a Glance cards -----
+      // TEMP: the Training card runs on sample numbers/names for design review. Set to false to use the SafetyHQ feed.
+      const TRAINING_USE_SAMPLE = true;
+      const SAMPLE_TRAINING = {
+        overdue: [{ who: "Sample Employee A", what: "Lead Awareness", when: "3 days overdue" }],
+        soon: [
+          { who: "Sample Employee B", what: "Ladder Safety", when: "Due in 2 days" },
+          { who: "Sample Employee C", what: "Rigging Safety", when: "Due in 3 days" },
+          { who: "Sample Employee D", what: "Hazard Communication", when: "Due in 5 days" },
+          { who: "Sample Employee E", what: "NFPA 70E (Arc Flash)", when: "Due in 7 days" },
+          { who: "Sample Employee F", what: "Defensive Driving", when: "Due in 8 days" },
+          { who: "Sample Employee G", what: "Heat Illness Prevention", when: "Due in 10 days" }
+        ],
+        later: 16
+      };
+      const gl = id => document.getElementById(id);
+
+      function popHtml(title, rows) {
+        return '<div class="gc-pop-title">' + escapeHtml(title) + '</div>' +
+          rows.map(r => '<div class="gc-pop-row"><strong>' + escapeHtml(r.who) + '</strong><span>' + escapeHtml([r.what, r.when].filter(Boolean).join(" · ")) + '</span></div>').join("");
+      }
+
+      function renderTraining(m) {
+        const o = m.overdue.length, s = m.soon.length, l = m.later, total = o + s + l;
+        gl("trainNumOverdue").textContent = o;
+        gl("trainNumSoon").textContent = s;
+        gl("trainNumLater").textContent = l;
+        gl("trainBar").innerHTML = [["seg-red", o], ["seg-amber", s], ["seg-blue", l]]
+          .filter(x => x[1] > 0).map(x => '<span class="' + x[0] + '" style="flex:' + x[1] + '"></span>').join("");
+        gl("trainPopOverdue").innerHTML = popHtml("Overdue", m.overdue);
+        gl("trainPopSoon").innerHTML = popHtml("Due within 10 days", m.soon);
+        if (!o) gl("trainRowOverdue").removeAttribute("tabindex");
+        if (!s) gl("trainRowSoon").removeAttribute("tabindex");
+        const card = gl("glanceTrainingCard");
+        card.classList.toggle("is-alert", o > 0);
+        card.classList.toggle("is-clear", total > 0 && o === 0 && s === 0);
+        gl("glanceSampleTag").hidden = !TRAINING_USE_SAMPLE;
+      }
+
+      function trainingFromFeed(data) {
+        const rows = normalizeRows(data.trainingStatus || data.training || data.trainingItems || data["Training Status"]);
+        const m = { overdue: [], soon: [], later: 0 };
+        rows.forEach(r => {
+          if (!get(r, ["employee"]) || !includeOnSite(r, 6)) return;
+          const days = num(get(r, ["daysUntilDue", "Days Until Due"]));
+          const status = lower(get(r, ["dashboardStatus", "status"]));
+          const item = { who: get(r, ["employee"]), what: get(r, ["requirementName", "requirement", "training"]), when: "", days };
+          if (status.includes("overdue") || days < 0) { item.when = Math.abs(days) + " days overdue"; m.overdue.push(item); }
+          else if (days <= 10) { item.when = "Due in " + days + " days"; m.soon.push(item); }
+          else m.later++;
+        });
+        m.soon.sort((a, b) => a.days - b.days);
+        return m;
+      }
+
+      function renderChecklist(data) {
+        const rows = normalizeRows(data.monthlyStatus || data.checklistStatus || data.monthlyItems).filter(r => get(r, ["employee"]) && includeOnSite(r, 7));
+        if (!rows.length) return;
+        const done = rows.filter(r => lower(get(r, ["dashboardStatus", "status"])).includes("complete") || get(r, ["completionDate"])).length;
+        const pct = Math.round(done / rows.length * 100);
+        const overdue = getChecklistItems(data);
+        const dueRaw = text(data.summary && data.summary.monthlyDueDate);
+        const dm = dueRaw.match(/^(\d{1,2})\/(\d{1,2})\//);
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const dueLabel = dm ? "Due " + months[Number(dm[1]) - 1] + " " + Number(dm[2]) : "";
+        gl("checkPct").textContent = pct + "%";
+        gl("checkRing").style.setProperty("--pct", pct);
+        gl("checkCount").textContent = done + " of " + rows.length + " complete";
+        gl("checkDue").textContent = dueLabel;
+        const card = gl("glanceChecklistCard");
+        card.classList.toggle("is-alert", overdue.length > 0);
+        card.classList.toggle("is-clear", overdue.length === 0 && pct === 100);
+        gl("checkOverdueRow").hidden = overdue.length === 0;
+        gl("checkOverdueNum").textContent = overdue.length;
+        gl("checkPop").innerHTML = popHtml("Overdue checklists", overdue.map(i => ({ who: i.employee, what: i.eq, when: "" })));
+      }
+
+      function refreshJobs() {
+        const wb = text(gl("whiteboardSummary")?.textContent).match(/(\d+) active jobs?/);
+        gl("glanceJobs").textContent = wb ? wb[1] : "–";
+        const upd = gl("lastUpdate"), stamp = gl("glanceUpdated");
+        const u = text(upd?.textContent);
+        if (stamp) { stamp.hidden = !u || !!upd.querySelector("img") || u.startsWith("Unable"); stamp.textContent = "Last updated " + u; }
+      }
+
+      // Touch screens have no hover: tap a row to open its list instead of following the card link.
+      document.querySelectorAll(".gc-row[tabindex]").forEach(row => {
+        row.addEventListener("click", event => {
+          if (window.matchMedia("(hover: hover)").matches) return;
+          event.preventDefault();
+          const open = !row.classList.contains("is-open");
+          document.querySelectorAll(".gc-row.is-open").forEach(r => r.classList.remove("is-open"));
+          row.classList.toggle("is-open", open);
+        });
+      });
+
+      if (TRAINING_USE_SAMPLE) renderTraining(SAMPLE_TRAINING);
+      window.addEventListener("safetyfeed", event => {
+        try { if (!TRAINING_USE_SAMPLE) renderTraining(trainingFromFeed(event.detail)); renderChecklist(event.detail); }
+        catch (error) { console.error("At a Glance render failed:", error); }
+      });
+      [gl("whiteboardSummary"), gl("lastUpdate")].forEach(el => {
+        if (el) new MutationObserver(refreshJobs).observe(el, { childList: true, subtree: true, characterData: true });
+      });
+      refreshJobs();
     })();
   </script>
 </body>
