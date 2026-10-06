@@ -289,53 +289,86 @@
 
 
     .data-store { display:none !important; }
+    .hero { box-shadow:none; border:1px solid rgba(0,157,255,.22); border-top:0; }
+    .announcement-row { grid-template-columns:minmax(0, 1fr) !important; }
+    .announcement-row .hero-quicklinks { display:none; }
+    .announcement-row .announcement-main { box-shadow:none; border:1px solid rgba(15,23,42,.08); background:rgba(255,255,255,.88); }
+    .announcement-row .announcement-main:hover { box-shadow:none; border-color:#1b6fb5; }
+    .note-icon { border-radius:12px; background:rgba(27,111,181,.10); box-shadow:none; }
+    .note-icon svg { stroke:#1b6fb5; }
+
     .glance-section { margin:0 0 10px; }
     .glance-head { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; }
     .glance-updated { margin-bottom:12px; color:var(--muted); font-size:.78rem; font-weight:700; white-space:nowrap; }
     .glance-updated[hidden] { display:none; }
-    .glance-grid { display:grid; grid-template-columns:minmax(0, 1.5fr) minmax(0, 1.2fr) minmax(0, .8fr); gap:16px; align-items:stretch; }
-    .glance-card { --tone:#1b6fb5; --tone-bg:rgba(234,242,251,.9); position:relative; display:flex; flex-direction:column; gap:14px; padding:18px 20px 16px; border:1px solid rgba(216,224,234,.8); border-top:4px solid var(--tone); border-radius:20px; background:linear-gradient(180deg, var(--tone-bg), rgba(255,255,255,.94) 55%); box-shadow:0 8px 22px rgba(15,23,42,.07); text-decoration:none; transition:transform .18s ease, box-shadow .18s ease; }
-    .glance-card:hover, .glance-card:focus-visible { transform:translateY(-3px); box-shadow:0 14px 30px rgba(15,23,42,.14); outline:none; }
-    .glance-card.is-alert { --tone:#c8321f; --tone-bg:rgba(253,232,232,.95); }
-    .glance-card.is-clear { --tone:#1f7a4d; --tone-bg:rgba(232,247,238,.95); }
+    .glance-grid { display:grid; grid-template-columns:minmax(0, 1.4fr) minmax(0, 1.2fr) minmax(0, 1fr); gap:16px; align-items:stretch; }
+    .glance-card { --tone:#1b6fb5; --tone-soft:rgba(27,111,181,.10); position:relative; display:flex; flex-direction:column; gap:16px; padding:22px; border:1px solid rgba(15,23,42,.08); border-radius:22px; background:rgba(255,255,255,.20); backdrop-filter:blur(14px); box-shadow:none; text-decoration:none; transition:border-color .18s ease, transform .18s ease, background .18s ease; }
+    .glance-card:hover, .glance-card:focus-visible { transform:translateY(-2px); border-color:var(--tone); background:rgba(255,255,255,.45); outline:none; }
+    .glance-card.is-alert { --tone:#d13a26; --tone-soft:rgba(209,58,38,.10); }
+    .glance-card.is-clear { --tone:#1f8a58; --tone-soft:rgba(31,138,88,.10); }
     .gc-head { display:flex; align-items:center; gap:12px; }
-    .gc-head h3 { margin:0; color:var(--blue-dark); font-size:1.05rem; font-weight:900; letter-spacing:.04em; text-transform:uppercase; }
+    .gc-head h3 { margin:0; color:var(--muted); font-size:.8rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
     .gc-sample { margin-left:auto; padding:3px 9px; border-radius:999px; background:#fff3cd; border:1px solid #e6c65c; color:#7a5b00; font-size:.64rem; font-weight:950; letter-spacing:.06em; text-transform:uppercase; }
     .gc-sample[hidden] { display:none; }
-    .glance-icon { flex:0 0 44px; width:44px; height:44px; display:grid; place-items:center; border-radius:50%; background:var(--tone); box-shadow:0 6px 14px rgba(15,23,42,.18); }
-    .glance-icon svg { width:24px; height:24px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-    .glance-num { color:var(--tone); font-size:3.4rem; font-weight:950; line-height:1; }
-    .glance-link { margin-top:auto; color:var(--tone); font-size:.78rem; font-weight:900; }
+    .glance-icon { flex:0 0 40px; width:40px; height:40px; display:grid; place-items:center; border-radius:12px; background:var(--tone-soft); box-shadow:none; }
+    .glance-icon svg { width:22px; height:22px; fill:none; stroke:var(--tone); stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+    .glance-num { color:var(--blue-dark); font-size:3.4rem; font-weight:950; line-height:1; letter-spacing:-.03em; }
+    .glance-link { margin-top:auto; color:var(--tone); font-size:.8rem; font-weight:900; }
 
-    .gc-bar { display:flex; height:18px; border-radius:999px; overflow:hidden; background:#dbe5f0; }
-    .gc-bar span { display:block; height:100%; min-width:6px; }
-    .gc-bar .seg-red { background:#c8321f; }
+    .gc-bar { display:flex; gap:3px; height:12px; }
+    .gc-bar span { display:block; height:100%; min-width:8px; border-radius:999px; }
+    .gc-bar .seg-red { background:#d13a26; }
     .gc-bar .seg-amber { background:#e59a1a; }
     .gc-bar .seg-blue { background:#4aa8ef; }
-    .gc-legend { display:grid; gap:4px; }
-    .gc-row { position:relative; display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:12px; color:var(--blue-dark); font-size:.95rem; font-weight:800; cursor:default; }
-    .gc-row b { min-width:30px; font-size:1.5rem; font-weight:950; line-height:1; }
-    .gc-row.is-red b { color:#c8321f; } .gc-row.is-amber b { color:#b86b00; } .gc-row.is-blue b { color:#1b6fb5; }
-    .gc-dot { width:12px; height:12px; border-radius:50%; background:currentColor; }
-    .gc-row.is-red .gc-dot { background:#c8321f; } .gc-row.is-amber .gc-dot { background:#e59a1a; } .gc-row.is-blue .gc-dot { background:#4aa8ef; }
-    .gc-row[tabindex]:hover, .gc-row[tabindex]:focus-visible, .gc-row.is-open { background:rgba(255,255,255,.9); box-shadow:0 0 0 1px rgba(18,63,115,.14); outline:none; }
+    .gc-legend { display:grid; gap:2px; }
+    .gc-row { position:relative; display:flex; align-items:center; gap:12px; padding:9px 12px; border-radius:14px; color:var(--blue-dark); font-size:.95rem; font-weight:800; cursor:default; }
+    .gc-row b { min-width:34px; font-size:1.7rem; font-weight:950; line-height:1; letter-spacing:-.02em; }
+    .gc-row.is-red b { color:#d13a26; } .gc-row.is-amber b { color:#b86b00; } .gc-row.is-blue b { color:#1b6fb5; }
+    .gc-dot { width:10px; height:10px; border-radius:50%; }
+    .gc-row.is-red .gc-dot { background:#d13a26; } .gc-row.is-amber .gc-dot { background:#e59a1a; } .gc-row.is-blue .gc-dot { background:#4aa8ef; }
+    .gc-row[tabindex]:hover, .gc-row[tabindex]:focus-visible, .gc-row.is-open { background:rgba(15,23,42,.05); outline:none; }
     .gc-row[hidden] { display:none; }
-    .gc-pop { display:none; position:absolute; left:0; top:calc(100% + 6px); z-index:60; width:min(320px, 80vw); max-height:340px; overflow-y:auto; padding:10px 12px; border:1px solid rgba(18,63,115,.18); border-radius:14px; background:#fff; box-shadow:0 16px 34px rgba(15,23,42,.22); text-align:left; }
+    .gc-pop { display:none; position:absolute; left:0; top:calc(100% + 6px); z-index:60; width:min(320px, 80vw); max-height:340px; overflow-y:auto; padding:12px 14px; border:1px solid rgba(15,23,42,.10); border-radius:16px; background:#fff; box-shadow:0 12px 30px rgba(15,23,42,.16); text-align:left; }
     .gc-row:hover .gc-pop, .gc-row:focus-visible .gc-pop, .gc-row.is-open .gc-pop { display:block; }
     .gc-pop-title { margin:0 0 6px; color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.08em; text-transform:uppercase; }
-    .gc-pop-row { display:grid; padding:6px 0; border-top:1px solid rgba(216,224,234,.8); }
+    .gc-pop-row { display:grid; padding:7px 0; border-top:1px solid rgba(15,23,42,.07); }
     .gc-pop-title + .gc-pop-row { border-top:0; }
     .gc-pop-row strong { color:var(--blue-dark); font-size:.86rem; }
     .gc-pop-row span { color:var(--muted); font-size:.74rem; font-weight:700; }
+    .gc-next { padding:10px 12px; border-radius:14px; background:var(--tone-soft); color:var(--blue-dark); font-size:.82rem; font-weight:750; line-height:1.35; }
+    .gc-next:empty { display:none; }
+    .gc-next b { color:var(--tone); }
 
-    .gc-ring-wrap { display:flex; align-items:center; gap:18px; }
-    .gc-ring { --pct:0; flex:0 0 118px; width:118px; height:118px; display:grid; place-items:center; border-radius:50%; background:conic-gradient(var(--tone) calc(var(--pct) * 1%), #dbe5f0 0); }
-    .gc-ring-in { width:88px; height:88px; display:grid; place-items:center; border-radius:50%; background:#fff; box-shadow:inset 0 0 0 1px rgba(216,224,234,.8); }
-    .gc-ring-in b { color:var(--tone); font-size:1.7rem; font-weight:950; }
-    .gc-ring-text { display:grid; gap:2px; min-width:0; }
-    .gc-ring-text strong { color:var(--blue-dark); font-size:1.02rem; font-weight:900; }
+    .gc-ring-wrap { display:flex; align-items:center; gap:20px; }
+    .gc-ring { --pct:0; position:relative; flex:0 0 124px; width:124px; height:124px; display:grid; place-items:center; }
+    .gc-ring::before { content:""; position:absolute; inset:0; border-radius:50%; background:conic-gradient(var(--tone) calc(var(--pct) * 1%), rgba(15,23,42,.10) 0); -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 13px), #000 calc(100% - 12px)); mask:radial-gradient(farthest-side, transparent calc(100% - 13px), #000 calc(100% - 12px)); }
+    .gc-ring-in { position:relative; display:grid; place-items:center; }
+    .gc-ring-in b { color:var(--blue-dark); font-size:1.9rem; font-weight:950; letter-spacing:-.03em; }
+    .gc-ring-text { display:grid; gap:3px; min-width:0; }
+    .gc-ring-text strong { color:var(--blue-dark); font-size:1.05rem; font-weight:900; }
     .gc-ring-text > span { color:var(--muted); font-size:.84rem; font-weight:750; }
-    .gc-overdue-row { margin:6px 0 0 -10px; }
+    .gc-ring-text > span:empty { display:none; }
+    .gc-overdue-row { margin:6px 0 0 -12px; }
+    .gc-split { margin-top:auto; padding-top:12px; border-top:1px solid rgba(15,23,42,.10); }
+    .gc-list-label { margin-bottom:6px; color:var(--muted); font-size:.68rem; font-weight:950; letter-spacing:.1em; text-transform:uppercase; }
+    .gc-list-label:empty { display:none; }
+    .gc-list-label.is-red { color:#d13a26; }
+    .gc-names { columns:3 92px; column-gap:14px; color:var(--blue-dark); font-size:.84rem; font-weight:800; line-height:1.6; }
+    .gc-names span { display:block; break-inside:avoid; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .gc-names span.is-late { color:#d13a26; }
+    .gc-names span.gc-ok { column-span:all; color:#1f8a58; }
+
+    .gc-jobs-top { display:flex; align-items:baseline; gap:10px; }
+    .gc-jobs-sub { color:var(--muted); font-size:.95rem; font-weight:800; }
+    .gc-joblist { display:grid; gap:2px; }
+    .gc-job { display:grid; grid-template-columns:auto minmax(0, 1fr); gap:1px 12px; padding:8px 10px; border-radius:12px; cursor:pointer; }
+    .gc-job:hover { background:rgba(15,23,42,.05); }
+    .gc-job b { color:var(--tone); font-size:.86rem; font-weight:900; }
+    .gc-job span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--blue-dark); font-size:.88rem; font-weight:800; }
+    .gc-job em { grid-column:2; color:var(--muted); font-size:.74rem; font-style:normal; font-weight:700; }
+    .gc-more-jobs { padding:2px 10px; color:var(--muted); font-size:.78rem; font-weight:800; }
+
+    .bottom-nav, .more-sheet, .more-backdrop { display:none; }
 
     @media (min-width: 901px) {
       .hero-quicklinks { display:none; }
@@ -346,6 +379,18 @@
       .glance-grid { grid-template-columns:minmax(0, 1fr); }
       .app-shell { grid-template-columns:minmax(0, 1fr); }
       .side-nav { display:none; }
+      body { padding-bottom:calc(76px + env(safe-area-inset-bottom)); }
+      .bottom-nav { position:fixed; left:0; right:0; bottom:0; z-index:250; display:flex; justify-content:space-around; gap:2px; padding:6px 6px calc(6px + env(safe-area-inset-bottom)); background:rgba(4,16,31,.97); border-top:1px solid rgba(0,157,255,.28); backdrop-filter:blur(10px); }
+      .bn-item { flex:1; min-width:0; display:grid; justify-items:center; gap:3px; padding:8px 2px; border:0; border-radius:12px; background:transparent; color:rgba(255,255,255,.72); font:inherit; font-size:.68rem; font-weight:800; text-decoration:none; cursor:pointer; }
+      .bn-item svg { width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+      .bn-item.is-active { color:#fff; }
+      .bn-item.is-active svg { stroke:#4aa8ef; }
+      .more-backdrop.is-open { display:block; position:fixed; inset:0; z-index:260; background:rgba(2,10,24,.6); }
+      .more-sheet.is-open { display:block; position:fixed; left:0; right:0; bottom:0; z-index:270; max-height:82vh; overflow-y:auto; padding:10px 12px calc(16px + env(safe-area-inset-bottom)); border-radius:22px 22px 0 0; background:linear-gradient(180deg, #0a2548, #04101f); border-top:1px solid rgba(0,157,255,.3); }
+      .more-grip { width:44px; height:5px; margin:2px auto 10px; border-radius:999px; background:rgba(255,255,255,.3); }
+      .more-body { display:flex; flex-direction:column; gap:4px; }
+      .more-body .side-link { padding:13px 14px; }
+      .more-body .side-spacer { display:none; }
       .topbar { height:60px; padding:0 14px; }
       .topbar-logo { width:42px; height:42px; }
       .topbar-name { font-size:.72rem; }
@@ -392,6 +437,8 @@
 
     @media (max-width: 640px) {
       .topbar-name { display:none; }
+      .glance-head { flex-direction:column; align-items:flex-start; gap:0; }
+      .glance-updated { margin:-6px 2px 12px; }
       .announcement-row .announcement-main { padding:12px 14px; gap:12px; }
       .glance-grid { grid-template-columns:minmax(0, 1fr); gap:12px; }
       .glance-card { padding:16px 16px 14px; }
@@ -567,6 +614,7 @@
             <div class="gc-row is-amber" id="trainRowSoon" tabindex="0"><span class="gc-dot"></span><b id="trainNumSoon">&ndash;</b><span>Due within 10 days</span><div class="gc-pop" id="trainPopSoon" role="tooltip"></div></div>
             <div class="gc-row is-blue"><span class="gc-dot"></span><b id="trainNumLater">&ndash;</b><span>Upcoming</span></div>
           </div>
+          <div class="gc-split"><div class="gc-list-label" id="trainOverdueLabel"></div><div class="gc-names" id="trainOverdueNames"></div></div>
           <span class="glance-link">View in SafetyHQ &rarr;</span>
         </a>
 
@@ -579,19 +627,21 @@
             <div class="gc-ring" id="checkRing" style="--pct:0"><div class="gc-ring-in"><b id="checkPct">&ndash;</b></div></div>
             <div class="gc-ring-text">
               <strong id="checkCount">&ndash;</strong>
+              <span id="checkLeft"></span>
               <span id="checkDue"></span>
-              <div class="gc-row is-red gc-overdue-row" id="checkOverdueRow" tabindex="0" hidden><span class="gc-dot"></span><b id="checkOverdueNum">0</b><span>Overdue</span><div class="gc-pop" id="checkPop" role="tooltip"></div></div>
             </div>
           </div>
+          <div class="gc-split"><div class="gc-list-label" id="checkListLabel"></div><div class="gc-names" id="checkNames"></div></div>
           <span class="glance-link">View in SafetyHQ &rarr;</span>
         </a>
 
-        <a class="glance-card gc-jobs glance-neutral" href="https://coastalbendpower.github.io/Whiteboard/view.html">
+        <a class="glance-card gc-jobs" href="https://coastalbendpower.github.io/Whiteboard/view.html">
           <div class="gc-head">
             <span class="glance-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg></span>
             <h3>Active Jobs</h3>
           </div>
-          <span class="glance-num" id="glanceJobs">&ndash;</span>
+          <div class="gc-jobs-top"><span class="glance-num" id="glanceJobs">&ndash;</span><span class="gc-jobs-sub">on the Whiteboard</span></div>
+          <div class="gc-joblist" id="glanceJobList"></div>
           <span class="glance-link">Open Whiteboard &rarr;</span>
         </a>
 
@@ -662,6 +712,16 @@
     </footer>
   </main>
   </div>
+
+  <nav class="bottom-nav" aria-label="Primary">
+    <a class="bn-item is-active" href="./" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></a>
+    <a class="bn-item" href="https://coastalbendpower.github.io/Whiteboard/view.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg><span>Whiteboard</span></a>
+    <a class="bn-item" href="https://coastalbendpower.github.io/SafetyHQ/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8.2 8 9 4.6-.8 8-4 8-9V6z"/></svg><span>SafetyHQ</span></a>
+    <a class="bn-item" href="https://coastalbendpower.na.hsiplatform.com/users/sign_in" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 8l10 5 8-4v6h2V8zM6 12.5v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3z"/></svg><span>Training</span></a>
+    <button class="bn-item" type="button" id="bnMore" aria-expanded="false" aria-controls="moreSheet"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span>More</span></button>
+  </nav>
+  <div class="more-backdrop" id="moreBackdrop"></div>
+  <div class="more-sheet" id="moreSheet" role="dialog" aria-label="All links"><div class="more-grip"></div><div class="more-body" id="moreBody"></div></div>
 
   <div class="job-hover job-detail" id="jobHover" aria-hidden="true"></div>
 
@@ -1552,18 +1612,24 @@
       // TEMP: the Training card runs on sample numbers/names for design review. Set to false to use the SafetyHQ feed.
       const TRAINING_USE_SAMPLE = true;
       const SAMPLE_TRAINING = {
-        overdue: [{ who: "Sample Employee A", what: "Lead Awareness", when: "3 days overdue" }],
+        overdue: [{ who: "Alex Sample", what: "Lead Awareness", when: "3 days overdue" }],
         soon: [
-          { who: "Sample Employee B", what: "Ladder Safety", when: "Due in 2 days" },
-          { who: "Sample Employee C", what: "Rigging Safety", when: "Due in 3 days" },
-          { who: "Sample Employee D", what: "Hazard Communication", when: "Due in 5 days" },
-          { who: "Sample Employee E", what: "NFPA 70E (Arc Flash)", when: "Due in 7 days" },
-          { who: "Sample Employee F", what: "Defensive Driving", when: "Due in 8 days" },
-          { who: "Sample Employee G", what: "Heat Illness Prevention", when: "Due in 10 days" }
+          { who: "Blake Sample", what: "Ladder Safety", when: "Due in 2 days" },
+          { who: "Casey Sample", what: "Rigging Safety", when: "Due in 3 days" },
+          { who: "Drew Sample", what: "Hazard Communication", when: "Due in 5 days" },
+          { who: "Eli Sample", what: "NFPA 70E (Arc Flash)", when: "Due in 7 days" },
+          { who: "Finn Sample", what: "Defensive Driving", when: "Due in 8 days" },
+          { who: "Gray Sample", what: "Heat Illness Prevention", when: "Due in 10 days" }
         ],
         later: 16
       };
       const gl = id => document.getElementById(id);
+
+      // "Hayden Henry" -> "H. Henry"
+      function fmtName(full) {
+        const parts = text(full).split(" ").filter(Boolean);
+        return parts.length < 2 ? text(full) : parts[0].charAt(0).toUpperCase() + ". " + parts.slice(1).join(" ");
+      }
 
       function popHtml(title, rows) {
         return '<div class="gc-pop-title">' + escapeHtml(title) + '</div>' +
@@ -1577,14 +1643,18 @@
         gl("trainNumLater").textContent = l;
         gl("trainBar").innerHTML = [["seg-red", o], ["seg-amber", s], ["seg-blue", l]]
           .filter(x => x[1] > 0).map(x => '<span class="' + x[0] + '" style="flex:' + x[1] + '"></span>').join("");
-        gl("trainPopOverdue").innerHTML = popHtml("Overdue", m.overdue);
         gl("trainPopSoon").innerHTML = popHtml("Due within 10 days", m.soon);
-        if (!o) gl("trainRowOverdue").removeAttribute("tabindex");
+        gl("trainRowOverdue").removeAttribute("tabindex");
         if (!s) gl("trainRowSoon").removeAttribute("tabindex");
         const card = gl("glanceTrainingCard");
         card.classList.toggle("is-alert", o > 0);
         card.classList.toggle("is-clear", total > 0 && o === 0 && s === 0);
         gl("glanceSampleTag").hidden = !TRAINING_USE_SAMPLE;
+        gl("trainOverdueLabel").textContent = o ? "Overdue \u00b7 " + o : "";
+        gl("trainOverdueLabel").classList.toggle("is-red", o > 0);
+        gl("trainOverdueNames").innerHTML = o
+          ? m.overdue.map(i => '<span title="' + escapeAttr(i.what + (i.when ? " \u00b7 " + i.when : "")) + '">' + escapeHtml(fmtName(i.who)) + '</span>').join("")
+          : '<span class="gc-ok">No overdue training</span>';
       }
 
       function trainingFromFeed(data) {
@@ -1616,18 +1686,42 @@
         gl("checkPct").textContent = pct + "%";
         gl("checkRing").style.setProperty("--pct", pct);
         gl("checkCount").textContent = done + " of " + rows.length + " complete";
-        gl("checkDue").textContent = dueLabel;
+        let left = "";
+        if (dm) {
+          const dueDate = new Date(Number(dueRaw.split("/")[2]), Number(dm[1]) - 1, Number(dm[2]));
+          const today = new Date(); today.setHours(0, 0, 0, 0);
+          const n = Math.round((dueDate - today) / 86400000);
+          left = n > 0 ? " \u00b7 " + n + " day" + (n === 1 ? "" : "s") + " left" : (n === 0 ? " \u00b7 due today" : "");
+        }
+        gl("checkDue").textContent = dueLabel ? dueLabel + left : "";
+        gl("checkLeft").textContent = rows.length - done > 0 ? (rows.length - done) + " remaining" : "All complete";
         const card = gl("glanceChecklistCard");
         card.classList.toggle("is-alert", overdue.length > 0);
         card.classList.toggle("is-clear", overdue.length === 0 && pct === 100);
-        gl("checkOverdueRow").hidden = overdue.length === 0;
-        gl("checkOverdueNum").textContent = overdue.length;
-        gl("checkPop").innerHTML = popHtml("Overdue checklists", overdue.map(i => ({ who: i.employee, what: i.eq, when: "" })));
+        const lateKeys = new Set(overdue.map(i => key(i.employee)));
+        const seen = new Set(), todo = [];
+        rows.forEach(r => {
+          const finished = lower(get(r, ["dashboardStatus", "status"])).includes("complete") || get(r, ["completionDate"]);
+          const who = get(r, ["employee"]);
+          if (!finished && !seen.has(key(who))) { seen.add(key(who)); todo.push(who); }
+        });
+        todo.sort((x, y) => fmtName(x).slice(3).localeCompare(fmtName(y).slice(3)));
+        gl("checkListLabel").textContent = todo.length ? "Incomplete \u00b7 " + todo.length : "";
+        gl("checkListLabel").classList.toggle("is-red", overdue.length > 0);
+        gl("checkNames").innerHTML = todo.length
+          ? todo.map(n => '<span class="' + (lateKeys.has(key(n)) ? "is-late" : "") + '">' + escapeHtml(fmtName(n)) + '</span>').join("")
+          : '<span class="gc-ok">All complete</span>';
       }
 
       function refreshJobs() {
         const wb = text(gl("whiteboardSummary")?.textContent).match(/(\d+) active jobs?/);
         gl("glanceJobs").textContent = wb ? wb[1] : "–";
+        const jobRows = Array.from(document.querySelectorAll("#whiteboardJobs tr[data-job]"));
+        const jobList = gl("glanceJobList");
+        if (jobList) jobList.innerHTML = jobRows.slice(0, 5).map(tr => {
+          const td = tr.querySelectorAll("td");
+          return '<div class="gc-job" data-job="' + escapeHtml(tr.dataset.job) + '"><b>' + escapeHtml(tr.dataset.job) + '</b><span>' + escapeHtml(text(td[1]?.textContent)) + '</span><em>Lead: ' + escapeHtml(text(td[2]?.textContent)) + '</em></div>';
+        }).join("") + (jobRows.length > 5 ? '<div class="gc-more-jobs">+ ' + (jobRows.length - 5) + ' more on the Whiteboard</div>' : "");
         const upd = gl("lastUpdate"), stamp = gl("glanceUpdated");
         const u = text(upd?.textContent);
         if (stamp) { stamp.hidden = !u || !!upd.querySelector("img") || u.startsWith("Unable"); stamp.textContent = "Last updated " + u; }
@@ -1644,6 +1738,13 @@
         });
       });
 
+      gl("glanceJobList")?.addEventListener("click", event => {
+        const job = event.target.closest(".gc-job");
+        if (!job) return;
+        event.preventDefault();
+        openJobModal(job.dataset.job);
+      });
+
       if (TRAINING_USE_SAMPLE) renderTraining(SAMPLE_TRAINING);
       window.addEventListener("safetyfeed", event => {
         try { if (!TRAINING_USE_SAMPLE) renderTraining(trainingFromFeed(event.detail)); renderChecklist(event.detail); }
@@ -1653,6 +1754,34 @@
         if (el) new MutationObserver(refreshJobs).observe(el, { childList: true, subtree: true, characterData: true });
       });
       refreshJobs();
+
+      // ----- Phone bottom bar: the More button opens the full grouped menu -----
+      const moreBtn = document.getElementById("bnMore"), sheet = document.getElementById("moreSheet");
+      const backdrop = document.getElementById("moreBackdrop"), moreBody = document.getElementById("moreBody");
+      if (moreBtn && sheet && backdrop && moreBody) {
+        const setMore = open => {
+          if (open && !moreBody.children.length) {
+            document.querySelectorAll(".side-nav > *").forEach(node => {
+              const copy = node.cloneNode(true);
+              copy.removeAttribute("id");
+              copy.classList.remove("is-active");
+              moreBody.appendChild(copy);
+            });
+          }
+          sheet.classList.toggle("is-open", open);
+          backdrop.classList.toggle("is-open", open);
+          moreBtn.setAttribute("aria-expanded", String(open));
+        };
+        moreBtn.addEventListener("click", () => setMore(!sheet.classList.contains("is-open")));
+        backdrop.addEventListener("click", () => setMore(false));
+        moreBody.addEventListener("click", event => {
+          const link = event.target.closest(".side-link");
+          if (!link || link.classList.contains("is-disabled")) return;
+          setMore(false);
+          if (link.matches("button")) document.getElementById("sideAppButton")?.click();
+        });
+        document.addEventListener("keydown", event => { if (event.key === "Escape") setMore(false); });
+      }
     })();
   </script>
 </body>
