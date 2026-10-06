@@ -53,7 +53,65 @@
     .power-loader--section img { width:38px; height:38px; }
     .followup-empty .power-loader { justify-content:flex-start; }
 
-    .page-shell { width:min(1180px, calc(100% - 96px)); margin:0 auto; padding:0 16px 16px; background:transparent; box-shadow:none; min-height:100vh; }
+    .topbar { position:sticky; top:0; z-index:200; height:72px; display:flex; align-items:center; padding:0 22px; background:linear-gradient(90deg, #04101f 0%, #0a2548 60%, #0b2a4e 100%); border-bottom:1px solid rgba(0,157,255,.30); box-shadow:0 6px 22px rgba(2,10,24,.28); }
+    .topbar-brand { display:flex; align-items:center; gap:14px; color:#fff; text-decoration:none; }
+    .topbar-logo { width:52px; height:52px; object-fit:contain; filter:drop-shadow(0 0 10px rgba(0,157,255,.45)); }
+    .topbar-name { font-size:.86rem; font-weight:850; letter-spacing:.12em; text-transform:uppercase; line-height:1.25; }
+
+    .topbar-search { position:relative; flex:1 1 auto; max-width:520px; margin:0 auto 0 36px; display:flex; align-items:center; }
+    .topbar-search > svg { position:absolute; left:14px; width:20px; height:20px; fill:none; stroke:rgba(255,255,255,.75); stroke-width:2; stroke-linecap:round; pointer-events:none; }
+    .topbar-search input { width:100%; height:42px; padding:0 14px 0 44px; border:1px solid rgba(255,255,255,.22); border-radius:10px; background:rgba(255,255,255,.10); color:#fff; font:inherit; font-size:.95rem; outline:none; }
+    .topbar-search input::placeholder { color:rgba(255,255,255,.62); }
+    .topbar-search input:focus { border-color:rgba(0,157,255,.8); background:rgba(255,255,255,.16); box-shadow:0 0 0 3px rgba(0,157,255,.22); }
+    .topbar-search input::-webkit-search-cancel-button { filter:invert(1); }
+    .search-results, .notif-panel { position:absolute; top:calc(100% + 8px); z-index:300; border:1px solid rgba(0,157,255,.28); border-radius:14px; background:rgba(255,255,255,.98); color:var(--text); box-shadow:0 18px 44px rgba(2,10,24,.34); overflow:hidden; }
+    .search-results { left:0; right:0; max-height:70vh; overflow-y:auto; }
+    .notif-panel { right:0; width:min(360px, calc(100vw - 24px)); }
+    .search-results[hidden], .notif-panel[hidden], .notif-badge[hidden] { display:none; }
+    .result-group { padding:8px 14px 4px; color:var(--muted); font-size:.66rem; font-weight:950; letter-spacing:.08em; text-transform:uppercase; }
+    .result-item { display:block; width:100%; padding:10px 14px; border:0; border-top:1px solid rgba(216,224,234,.7); background:transparent; color:var(--blue-dark); font:inherit; font-size:.9rem; font-weight:800; text-align:left; text-decoration:none; cursor:pointer; }
+    .result-item small { display:block; margin-top:1px; color:var(--muted); font-size:.74rem; font-weight:700; }
+    .result-item:hover, .result-item:focus-visible, .result-item.is-first { background:var(--blue-soft); outline:none; }
+    .result-empty { padding:14px; color:var(--muted); font-size:.88rem; font-weight:700; }
+
+    .topbar-actions { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    .notif-wrap { position:relative; }
+    .icon-btn { position:relative; width:44px; height:44px; display:grid; place-items:center; border:0; border-radius:50%; background:transparent; color:#fff; cursor:pointer; }
+    .icon-btn svg { width:26px; height:26px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .icon-btn:hover, .icon-btn:focus-visible, .icon-btn[aria-expanded="true"] { background:rgba(255,255,255,.14); outline:none; }
+    .notif-badge { position:absolute; top:3px; right:2px; min-width:20px; height:20px; padding:0 5px; display:grid; place-items:center; border-radius:999px; background:#d92d20; color:#fff; font-size:.7rem; font-weight:950; line-height:1; box-shadow:0 0 0 2px #0a2548; }
+    .notif-head { padding:12px 14px; border-bottom:1px solid rgba(182,199,218,.9); background:linear-gradient(90deg, rgba(234,242,251,.96), #fff); color:var(--blue-dark); font-size:.8rem; font-weight:950; letter-spacing:.075em; text-transform:uppercase; }
+    .notif-item { display:block; width:100%; padding:11px 14px; border:0; border-top:1px solid rgba(216,224,234,.7); background:transparent; color:var(--blue-dark); font:inherit; font-size:.88rem; font-weight:800; text-align:left; cursor:pointer; }
+    .notif-item:first-of-type { border-top:0; }
+    .notif-item:hover, .notif-item:focus-visible { background:var(--blue-soft); outline:none; }
+    .notif-item small { display:block; margin-top:2px; color:var(--muted); font-size:.74rem; font-weight:700; line-height:1.3; }
+    .notif-item.is-alert small { color:var(--red); }
+    .notif-empty { padding:16px 14px; color:var(--green); font-size:.88rem; font-weight:750; }
+
+    .user-chip { display:flex; align-items:center; gap:10px; padding:5px 12px 5px 6px; border-radius:999px; color:#fff; cursor:default; }
+    .user-avatar { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:linear-gradient(135deg, #1590f0, #0f4f9c); border:1px solid rgba(255,255,255,.4); }
+    .user-avatar svg { width:22px; height:22px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; }
+    .user-text { display:grid; line-height:1.2; }
+    .user-text small { font-size:.7rem; font-weight:650; opacity:.78; }
+    .user-text strong { font-size:.92rem; font-weight:850; }
+
+    .app-shell { display:grid; grid-template-columns:240px minmax(0, 1fr); align-items:start; }
+    .side-nav { position:sticky; top:72px; height:calc(100vh - 72px); display:flex; flex-direction:column; gap:6px; padding:18px 12px; overflow-y:auto; background:linear-gradient(180deg, rgba(4,16,31,.96), rgba(10,38,72,.94)); border-right:1px solid rgba(0,157,255,.22); }
+    .side-link { display:flex; align-items:center; gap:14px; width:100%; padding:10px 14px; border:0; border-radius:12px; background:transparent; color:rgba(255,255,255,.92); font:inherit; font-size:.95rem; font-weight:750; text-align:left; text-decoration:none; cursor:pointer; transition:background .16s ease, box-shadow .16s ease; }
+    .side-link svg { flex:0 0 24px; width:24px; height:24px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .side-link small { display:block; margin-top:1px; font-size:.72rem; font-weight:650; opacity:.75; }
+    .side-link:hover, .side-link:focus-visible { background:rgba(0,157,255,.16); outline:none; }
+    .side-link.is-active { background:linear-gradient(90deg, #0f6fd1, #1590f0); box-shadow:0 6px 18px rgba(0,157,255,.32); color:#fff; }
+    .side-group-label { margin:14px 14px 2px; padding-top:12px; border-top:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.55); font-size:.68rem; font-weight:950; letter-spacing:.12em; text-transform:uppercase; }
+    .side-link.is-disabled { opacity:.5; cursor:default; }
+    .side-link.is-disabled:hover { background:transparent; }
+    .side-link span { white-space:nowrap; }
+    .side-link { gap:12px; }
+    .side-soon { margin-left:auto; padding:2px 6px; border:1px solid rgba(255,255,255,.28); border-radius:999px; font-size:.6rem; font-style:normal; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
+    .side-spacer { flex:1; }
+    .side-link-small { font-size:.84rem; font-weight:650; color:rgba(255,255,255,.78); }
+
+    .page-shell { width:min(1180px, calc(100% - 64px)); margin:0 auto; padding:0 16px 16px; background:transparent; box-shadow:none; min-height:calc(100vh - 72px); }
 
     .hero { position:relative; overflow:visible; background:transparent; color:#fff; border-radius:0 0 34px 34px; min-height:230px; display:flex; align-items:center; margin:0 -16px 18px; box-shadow:var(--shadow); }
     .hero-media { position:absolute; inset:0; border-radius:0 0 34px 34px; z-index:0; overflow:hidden; }
@@ -221,7 +279,38 @@
     .modal-body { color:var(--text); font-weight:700; line-height:1.5; white-space:pre-wrap; }
     .modal-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
 
+    .announcement-row .announcement-main { display:flex; align-items:center; gap:16px; padding:14px 18px; border:1px solid rgba(0,157,255,.22); border-radius:18px; background:rgba(255,255,255,.86); box-shadow:0 10px 26px rgba(15,23,42,.10); backdrop-filter:blur(8px); }
+    .announcement-row .announcement-main:hover { background:#fff; box-shadow:0 12px 30px rgba(15,23,42,.14); }
+    .note-icon { flex:0 0 52px; width:52px; height:52px; display:grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 35% 30%, #2a9bff, #0b4a9c); box-shadow:0 0 0 3px rgba(0,157,255,.18), 0 6px 14px rgba(11,74,156,.35); }
+    .note-icon svg { width:26px; height:26px; fill:none; stroke:#fff; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
+    .note-body { flex:1 1 auto; min-width:0; }
+    .note-label { display:block; margin-bottom:2px; color:#1b6fb5; font-size:.68rem; font-weight:950; letter-spacing:.1em; text-transform:uppercase; }
+    .note-more { flex:0 0 auto; padding:8px 14px; border-radius:999px; background:var(--blue); color:#fff; font-size:.78rem; font-weight:900; white-space:nowrap; }
+
+    .tools-section { margin:0 0 6px; }
+    .tool-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:14px; }
+    .tool-tile { display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:14px; align-items:center; padding:14px 16px; border:1px solid rgba(216,224,234,.8); border-radius:20px; background:rgba(255,255,255,.82); box-shadow:0 8px 22px rgba(15,23,42,.07); text-decoration:none; backdrop-filter:blur(8px); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+    .tool-tile:hover, .tool-tile:focus-visible { transform:translateY(-3px); border-color:#7fb8ec; box-shadow:0 14px 30px rgba(0,157,255,.18); outline:none; }
+    .tool-icon { grid-row:1 / 3; width:64px; height:64px; object-fit:contain; filter:drop-shadow(0 8px 12px rgba(11,74,156,.30)); }
+    .tool-icon-fallback { display:grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 35% 30%, #2a9bff, #0b3d82); border:3px solid #cfe0f2; box-shadow:0 8px 14px rgba(11,74,156,.30); filter:none; }
+    .tool-icon-fallback svg { width:30px; height:30px; fill:none; stroke:#fff; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+    .tool-tile strong { align-self:end; color:var(--blue-dark); font-size:1rem; font-weight:900; }
+    .tool-tile > span:not(.tool-icon) { align-self:start; color:var(--muted); font-size:.78rem; font-weight:700; line-height:1.3; }
+
+    @media (min-width: 901px) {
+      .hero-quicklinks { display:none; }
+      .announcement-row { grid-template-columns:minmax(0, 1fr); }
+    }
+
     @media (max-width: 900px) {
+      .app-shell { grid-template-columns:minmax(0, 1fr); }
+      .side-nav { display:none; }
+      .topbar { height:60px; padding:0 14px; }
+      .topbar-logo { width:42px; height:42px; }
+      .topbar-name { font-size:.72rem; }
+      .topbar-search { margin-left:16px; }
+      .user-text { display:none; }
+      .user-chip { padding:0; }
       .page-shell { width:min(100%, calc(100% - 24px)); }
       .hub-layout { grid-template-columns:1fr; gap:26px; }
       .hr-section, .crew-section { padding-left:0; }
@@ -260,6 +349,20 @@
       .snapshot-header { margin-top:18px; }
     }
 
+    @media (max-width: 640px) {
+      .topbar-name { display:none; }
+      .announcement-row .announcement-main { padding:12px 14px; gap:12px; }
+      .note-icon { flex-basis:42px; width:42px; height:42px; }
+      .note-more { display:none; }
+      .tool-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px; }
+      .tool-tile { grid-template-columns:1fr; justify-items:center; text-align:center; padding:14px 8px; row-gap:2px; }
+      .tool-icon { grid-row:auto; margin-bottom:6px; }
+      .tool-tile strong { align-self:auto; }
+      .topbar-search { margin-left:12px; }
+      .topbar-actions { gap:4px; }
+      .search-results, .notif-panel { position:fixed; top:66px; left:12px; right:12px; width:auto; max-height:calc(100vh - 80px); overflow-y:auto; }
+    }
+
     @media (max-width: 430px) {
       .hero { aspect-ratio:16 / 6.3; }
       .hero-inner { height:100%; padding:12px 18px 12px 32%; justify-items:center; }
@@ -272,6 +375,89 @@
   </style>
 </head>
 <body>
+  <header class="topbar">
+    <a class="topbar-brand" href="./" aria-label="CBPS PowerHub home">
+      <img src="assets/button_CBPS_Site_round_300.png" alt="" class="topbar-logo">
+      <span class="topbar-name">Coastal Bend<br>Power Services, LLC</span>
+    </a>
+
+    <form class="topbar-search" id="hubSearchForm" role="search" autocomplete="off">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" id="hubSearch" placeholder="Search PowerHub..." aria-label="Search PowerHub" aria-controls="hubSearchResults" />
+      <div class="search-results" id="hubSearchResults" role="listbox" hidden></div>
+    </form>
+
+    <div class="topbar-actions">
+      <div class="notif-wrap">
+        <button class="icon-btn" type="button" id="notifButton" aria-label="Notifications" aria-expanded="false" aria-controls="notifPanel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9zM10 20a2 2 0 0 0 4 0"/></svg>
+          <span class="notif-badge" id="notifBadge" hidden>0</span>
+        </button>
+        <div class="notif-panel" id="notifPanel" hidden></div>
+      </div>
+      <!-- Placeholder only: replace with the real signed-in user once the Microsoft 365 sign-in is in place. -->
+      <div class="user-chip" title="Sign-in will connect with Microsoft 365">
+        <span class="user-avatar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span>
+        <span class="user-text"><small>Signed in as</small><strong id="userChipName">Employee</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <nav class="side-nav" aria-label="Main navigation">
+      <a class="side-link is-active" href="./" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+        <span>PowerHub<small>Home</small></span>
+      </a>
+      <a class="side-link" href="https://coastalbendpower.github.io/Whiteboard/view.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg>
+        <span>Whiteboard</span>
+      </a>
+      <span class="side-link is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>Timesheet</span><em class="side-soon">Soon</em>
+      </span>
+      <a class="side-link" href="https://account.sharesync.serverdata.net/login/v1.2/?client_id=sharesync_web_app_sts&amp;client_type=Sync-WebApp&amp;client_version=3.48.1&amp;application_client_id=5d5c5f78-10b2-0f0b-a925-606d43526abe&amp;redirect_uri=https%3A%2F%2Fsharesync.serverdata.net%2Fus4%2F&amp;locale=en-us" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span>ShareSync</span>
+      </a>
+      <div class="side-group-label">Safety</div>
+      <a class="side-link" href="https://coastalbendpower.github.io/SafetyHQ/">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.4 8.2 8 9 4.6-.8 8-4 8-9V6z"/></svg>
+        <span>SafetyHQ</span>
+      </a>
+      <span class="side-link is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></svg>
+        <span>Procedures</span><em class="side-soon">Soon</em>
+      </span>
+      <a class="side-link" href="https://coastalbendpower.na.hsiplatform.com/users/sign_in" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 8l10 5 8-4v6h2V8zM6 12.5v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3z"/></svg>
+        <span>Training</span>
+      </a>
+      <span class="side-link is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1zM17 8.5a5 5 0 0 1 0 7"/></svg>
+        <span>LiveWire</span><em class="side-soon">Soon</em>
+      </span>
+      <div class="side-group-label">Admin / HR</div>
+      <span class="side-link is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg>
+        <span>Org Chart</span><em class="side-soon">Soon</em>
+      </span>
+      <span class="side-link is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></svg>
+        <span>Company Policies</span><em class="side-soon">Soon</em>
+      </span>
+      <span class="side-link is-disabled" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 12h6M9 16h6"/></svg>
+        <span>Forms Library</span><em class="side-soon">Soon</em>
+      </span>
+      <div class="side-spacer"></div>
+      <button class="side-link side-link-small" type="button" id="sideAppButton">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm5 17.5a1 1 0 1 0 0 .01"/></svg>
+        <span>PowerHub App</span>
+      </button>
+    </nav>
+
   <main class="page-shell">
     <header class="hero">
       <picture class="hero-media" aria-hidden="true">
@@ -289,7 +475,12 @@
 
     <section class="announcement-row" aria-label="Team Note">
       <div class="announcement-main" id="teamNoteTrigger" role="button" tabindex="0" aria-label="Open Team Note">
-        <div class="announcement-text" id="powerhubAnnouncementText" aria-live="polite"><span class="power-loader power-loader--inline" role="status" aria-label="Loading announcement"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading announcement</span></span></div>
+        <span class="note-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1zM17 8.5a5 5 0 0 1 0 7"/></svg></span>
+        <div class="note-body">
+          <span class="note-label">Team Note</span>
+          <div class="announcement-text" id="powerhubAnnouncementText" aria-live="polite"><span class="power-loader power-loader--inline" role="status" aria-label="Loading announcement"><img src="assets/loading_spinner_electric_ring.svg" alt="" aria-hidden="true"><span class="sr-only">Loading announcement</span></span></div>
+        </div>
+        <span class="note-more" aria-hidden="true">Read more &rarr;</span>
       </div>
       <details class="hero-quicklinks">
         <summary class="quicklinks-trigger" aria-label="Open Quick Links"><img src="assets/button_MAIN Quick Links_v2.png" alt="Quick Links"></summary>
@@ -315,6 +506,33 @@
           </button>
         </nav>
       </details>
+    </section>
+
+    <section class="tools-section" aria-labelledby="tools-title">
+      <div class="section-title"><h2 id="tools-title">CBPS Tools &amp; Resources</h2></div>
+      <div class="tool-grid">
+        <a class="tool-tile" href="https://coastalbendpower.github.io/SafetyHQ/">
+          <img class="tool-icon" src="assets/button_SafetyHQ_round_300.png" alt="">
+          <strong>SafetyHQ</strong>
+          <span>Safety training &amp; checklists</span>
+        </a>
+        <a class="tool-tile" href="https://coastalbendpower.github.io/Whiteboard/view.html">
+          <!-- Placeholder icon: no Whiteboard round button image exists yet. -->
+          <span class="tool-icon tool-icon-fallback" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg></span>
+          <strong>Whiteboard</strong>
+          <span>Crew assignments &amp; jobs</span>
+        </a>
+        <a class="tool-tile" href="https://coastalbendpower.na.hsiplatform.com/users/sign_in" target="_blank" rel="noopener noreferrer">
+          <img class="tool-icon" src="assets/button_HSI_Login_round_300.png" alt="">
+          <strong>HSI Training</strong>
+          <span>Training platform login</span>
+        </a>
+        <a class="tool-tile" href="https://account.sharesync.serverdata.net/login/v1.2/?client_id=sharesync_web_app_sts&amp;client_type=Sync-WebApp&amp;client_version=3.48.1&amp;application_client_id=5d5c5f78-10b2-0f0b-a925-606d43526abe&amp;redirect_uri=https%3A%2F%2Fsharesync.serverdata.net%2Fus4%2F&amp;locale=en-us" target="_blank" rel="noopener noreferrer">
+          <img class="tool-icon" src="assets/button_ShareSync_round_300.png" alt="">
+          <strong>ShareSync</strong>
+          <span>Company file sharing</span>
+        </a>
+      </div>
     </section>
 
     <section class="hub-layout">
@@ -379,6 +597,7 @@
       <p class="site-version">Version: PowerHub v3.0.36</p>
     </footer>
   </main>
+  </div>
 
   <div class="job-hover job-detail" id="jobHover" aria-hidden="true"></div>
 
@@ -1082,6 +1301,7 @@
       };
 
       els.powerHubAppButton?.addEventListener("click", openStandardAppModal);
+      document.getElementById("sideAppButton")?.addEventListener("click", openStandardAppModal);
 
       els.powerHubInstallButton?.addEventListener("click", async () => {
         if (deferredInstallPrompt) {
@@ -1131,6 +1351,138 @@
     loadPowerHubAnnouncement();
     loadSafetySnapshot();
     loadWhiteboardSummary();
+  </script>
+
+  <script>
+    // Top bar: search + notifications. Reads what is already on the page; no new data sources.
+    (function () {
+      const DEFAULT_NOTE = "Please complete all assigned requirements by their due dates.";
+      const input = document.getElementById("hubSearch");
+      const results = document.getElementById("hubSearchResults");
+      const form = document.getElementById("hubSearchForm");
+      const bell = document.getElementById("notifButton");
+      const badge = document.getElementById("notifBadge");
+      const panel = document.getElementById("notifPanel");
+      if (!input || !results || !bell || !badge || !panel) return;
+
+      const lower = s => String(s || "").toLowerCase();
+      const goSnapshot = () => document.getElementById("safetySnapshotLink")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      function overdueItems() {
+        const out = [];
+        [["checklistFollowupBox", "Checklist"], ["trainingFollowupBox", "Training"]].forEach(([id, label]) => {
+          document.querySelectorAll("#" + id + " .followup-item").forEach(item => {
+            const title = text(item.querySelector("strong")?.textContent);
+            const detail = Array.from(new Set(Array.from(item.querySelectorAll("span")).map(s => text(s.textContent)).filter(Boolean))).join(" · ");
+            if (title) out.push({ label, title, detail });
+          });
+        });
+        return out;
+      }
+
+      function teamNote() {
+        const note = text(typeof latestAnnouncement === "string" ? latestAnnouncement : "");
+        return note && note !== DEFAULT_NOTE ? note : "";
+      }
+
+      // ----- Notifications -----
+      function refreshBadge() {
+        const count = overdueItems().length + (teamNote() ? 1 : 0);
+        badge.textContent = count > 99 ? "99+" : String(count);
+        badge.hidden = count === 0;
+        bell.setAttribute("aria-label", count ? "Notifications, " + count + " new" : "Notifications");
+      }
+
+      function renderPanel() {
+        const note = teamNote();
+        const items = overdueItems();
+        let html = '<div class="notif-head">Notifications</div>';
+        if (note) html += '<button type="button" class="notif-item" data-go="note">Team Note<small>' + escapeHtml(note) + '</small></button>';
+        items.forEach(i => { html += '<button type="button" class="notif-item is-alert" data-go="snapshot">Overdue ' + escapeHtml(i.label) + ': ' + escapeHtml(i.title) + '<small>' + escapeHtml(i.detail) + '</small></button>'; });
+        if (!note && !items.length) html += '<div class="notif-empty">You\'re all caught up.</div>';
+        panel.innerHTML = html;
+      }
+
+      function setPanel(open) {
+        if (open) renderPanel();
+        panel.hidden = !open;
+        bell.setAttribute("aria-expanded", String(open));
+      }
+
+      bell.addEventListener("click", event => { event.stopPropagation(); setPanel(panel.hidden); });
+      panel.addEventListener("click", event => {
+        const btn = event.target.closest("[data-go]");
+        if (!btn) return;
+        setPanel(false);
+        if (btn.dataset.go === "note") document.getElementById("teamNoteTrigger")?.click();
+        else goSnapshot();
+      });
+
+      const observer = new MutationObserver(refreshBadge);
+      ["checklistFollowupBox", "trainingFollowupBox", "powerhubAnnouncementText"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el, { childList: true, subtree: true, characterData: true });
+      });
+      refreshBadge();
+
+      // ----- Search -----
+      let current = [];
+
+      function buildIndex() {
+        const idx = [];
+        document.querySelectorAll(".side-nav a.side-link").forEach(a => {
+          const label = text(a.querySelector("span")?.firstChild?.textContent || a.textContent);
+          idx.push({ group: "Tools", title: label, sub: "", hay: lower(label), href: a.getAttribute("href"), external: a.target === "_blank" });
+        });
+        document.querySelectorAll("#whiteboardJobs tr[data-job]").forEach(tr => {
+          const tds = tr.querySelectorAll("td");
+          const jobNo = tr.dataset.job;
+          const customer = text(tds[1]?.textContent), lead = text(tds[2]?.textContent);
+          idx.push({ group: "Whiteboard jobs", title: "Job " + jobNo + " — " + customer, sub: "Lead: " + lead, hay: lower(jobNo + " " + customer + " " + lead), job: jobNo });
+        });
+        overdueItems().forEach(i => idx.push({ group: "Safety Snapshot", title: i.title, sub: "Overdue " + i.label.toLowerCase() + " · " + i.detail, hay: lower(i.title + " " + i.detail + " overdue " + i.label), snapshot: true }));
+        return idx;
+      }
+
+      function openResult(r) {
+        results.hidden = true;
+        if (r.job) openJobModal(r.job);
+        else if (r.snapshot) goSnapshot();
+        else if (r.href) { if (r.external) window.open(r.href, "_blank", "noopener"); else window.location.href = r.href; }
+      }
+
+      function runSearch() {
+        const q = lower(text(input.value));
+        if (!q) { results.hidden = true; return; }
+        const terms = q.split(" ");
+        current = buildIndex().filter(r => terms.every(t => r.hay.includes(t))).slice(0, 12);
+        let html = "", lastGroup = "";
+        current.forEach((r, i) => {
+          if (r.group !== lastGroup) { html += '<div class="result-group">' + escapeHtml(r.group) + '</div>'; lastGroup = r.group; }
+          html += '<button type="button" role="option" class="result-item' + (i === 0 ? " is-first" : "") + '" data-i="' + i + '">' + escapeHtml(r.title) + (r.sub ? '<small>' + escapeHtml(r.sub) + '</small>' : "") + '</button>';
+        });
+        results.innerHTML = current.length ? html : '<div class="result-empty">No matches on PowerHub.</div>';
+        results.hidden = false;
+      }
+
+      input.addEventListener("input", runSearch);
+      input.addEventListener("focus", runSearch);
+      form.addEventListener("submit", event => { event.preventDefault(); if (current[0]) openResult(current[0]); });
+      results.addEventListener("click", event => {
+        const btn = event.target.closest("[data-i]");
+        if (btn) openResult(current[Number(btn.dataset.i)]);
+      });
+
+      document.addEventListener("click", event => {
+        if (!form.contains(event.target)) results.hidden = true;
+        if (!panel.hidden && !panel.contains(event.target) && !bell.contains(event.target)) setPanel(false);
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key !== "Escape") return;
+        results.hidden = true;
+        setPanel(false);
+      });
+    })();
   </script>
 </body>
 </html>
