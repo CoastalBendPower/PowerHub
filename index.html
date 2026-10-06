@@ -1229,7 +1229,7 @@
       try { localStorage.setItem(FEED_CACHE_PREFIX + name, JSON.stringify({ t: Date.now(), data })); }
       catch (error) { console.warn("Feed cache not saved", error); }
     }
-    async function fetchFeedJson(url, timeoutMs = 10000, retries = 1) {
+    async function fetchFeedJson(url, timeoutMs = 25000, retries = 1) {
       let lastError;
       for (let attempt = 0; attempt <= retries; attempt++) {
         const controller = new AbortController();
