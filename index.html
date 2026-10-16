@@ -1774,7 +1774,7 @@
       }
       function daysTxt(when) {
         const n = (String(when).match(/\d+/) || [""])[0];
-        return n ? " (" + n + "d Overdue)" : "";
+        return n ? " (" + n + "d)" : "";
       }
       function moreNames(n) { return n > 6 ? '<span class="gc-more-names">+ ' + (n - 6) + ' more</span>' : ""; }
       function stateHtml(kind, msg) {
